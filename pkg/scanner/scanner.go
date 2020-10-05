@@ -31,13 +31,12 @@ func (s *Scanner) Scan() (result TokenText) {
 	ch := s.textScanner.Scan()
 	text := s.textScanner.TokenText()
 
-	result.Text = text
+	result.Text = strings.ToLower(text)
 
 	switch ch {
 	case scanner.EOF:
 		result.Token = token.EOF
 	case scanner.Ident:
-		result.Text = strings.ToLower(text)
 		switch result.Text {
 		case "true", "false":
 			result.Token = token.Bool
