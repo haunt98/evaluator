@@ -20,6 +20,8 @@ func NewBufferScanner(s *Scanner) *BufferScanner {
 // Scan() return next token and it's gone
 // if cached is true -> return buffer and set cached is false
 // if cached is false -> return scanner result and stores it in buffer
+// always stores scanner result in buffer
+// but buffer is returned only 1 time, next time buffer is updated from scanner result
 func (bs *BufferScanner) Scan() TokenText {
 	if bs.buf.isCached {
 		bs.buf.isCached = false
@@ -31,6 +33,8 @@ func (bs *BufferScanner) Scan() TokenText {
 }
 
 // Peek() return next token but it's still there
+// return scan result and set cached is true
+// next time scan will get result from buffer
 func (bs *BufferScanner) Peek() TokenText {
 	tokenText := bs.Scan()
 	bs.buf.isCached = true
