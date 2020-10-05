@@ -1,4 +1,4 @@
-package evaluate
+package visitor
 
 import (
 	"fmt"
@@ -9,6 +9,12 @@ import (
 
 type visitor struct {
 	args map[string]interface{}
+}
+
+func NewVisitor(args map[string]interface{}) expression.Visitor {
+	return &visitor{
+		args: args,
+	}
 }
 
 func (v visitor) Visit(expr expression.Expression) (interface{}, error) {
