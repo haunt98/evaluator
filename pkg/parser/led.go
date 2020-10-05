@@ -17,7 +17,7 @@ func (p *Parser) led(tokenText scanner.TokenText, expr expression.Expression) (e
 }
 
 func (p *Parser) ledInfix(tokenText scanner.TokenText, expr expression.Expression) (expression.Expression, error) {
-	rightExpr, err := p.parseExpression(tokenText.Token.Precedence())
+	rightExpr, err := p.parseWithPrecedence(tokenText.Token.Precedence())
 	if err != nil {
 		return nil, err
 	}

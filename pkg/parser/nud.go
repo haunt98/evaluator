@@ -57,7 +57,7 @@ func (p *Parser) nudVar(tokenText scanner.TokenText) (expression.Expression, err
 }
 
 func (p *Parser) nudNot(_ scanner.TokenText) (expression.Expression, error) {
-	expr, err := p.parseExpression(token.LowestLevel)
+	expr, err := p.parseWithPrecedence(token.LowestLevel)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (p *Parser) nudNot(_ scanner.TokenText) (expression.Expression, error) {
 }
 
 func (p *Parser) nudOpenParenthesis(_ scanner.TokenText) (expression.Expression, error) {
-	expr, err := p.parseExpression(token.LowestLevel)
+	expr, err := p.parseWithPrecedence(token.LowestLevel)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func (p *Parser) nudSquareBracket(_ scanner.TokenText) (expression.Expression, e
 		}
 
 		var child expression.Expression
-		child, err := p.parseExpression(token.LowestLevel)
+		child, err := p.parseWithPrecedence(token.LowestLevel)
 		if err != nil {
 			return nil, err
 		}

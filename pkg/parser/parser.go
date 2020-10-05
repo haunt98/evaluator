@@ -59,10 +59,10 @@ func NewParser(input string) *Parser {
 }
 
 func (p *Parser) Parse() (expression.Expression, error) {
-	return p.parseExpression(token.LowestLevel)
+	return p.parseWithPrecedence(token.LowestLevel)
 }
 
-func (p *Parser) parseExpression(precedence int) (expression.Expression, error) {
+func (p *Parser) parseWithPrecedence(precedence int) (expression.Expression, error) {
 	tokenText := p.bs.Scan()
 	result, err := p.nud(tokenText)
 	if err != nil {
