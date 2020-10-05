@@ -17,51 +17,54 @@ func NewVisitor(args map[string]interface{}) expression.Visitor {
 	}
 }
 
-func (v visitor) Visit(expr expression.Expression) (interface{}, error) {
+func (v visitor) Visit(expr expression.Expression) (expression.Expression, error) {
 	return expr.Accept(v)
 }
 
-func (v visitor) VisitBool(lit *expression.BoolLiteral) (interface{}, error) {
-	return lit.Value, nil
+func (v visitor) VisitBool(lit *expression.BoolLiteral) (expression.Expression, error) {
+	return lit, nil
 }
 
-func (v visitor) VisitInt(lit *expression.IntLiteral) (interface{}, error) {
-	return lit.Value, nil
+func (v visitor) VisitInt(lit *expression.IntLiteral) (expression.Expression, error) {
+	return lit, nil
 }
 
-func (v visitor) VisitString(lit *expression.StringLiteral) (interface{}, error) {
-	return lit.Value, nil
+func (v visitor) VisitString(lit *expression.StringLiteral) (expression.Expression, error) {
+	return lit, nil
 }
 
-func (v visitor) VisitVar(expr *expression.VarExpression) (interface{}, error) {
+func (v visitor) VisitVar(expr *expression.VarExpression) (expression.Expression, error) {
 	value, ok := v.args[expr.Value]
 	if !ok {
 		return nil, fmt.Errorf("args missing %s", expr.Value)
 	}
 
-	return value, nil
+	switch v := value.(type) {
+	case bool:
+		return &expression.BoolLiteral{
+			Value: v,
+		}, nil
+	case int:
+		return &expression.IntLiteral{
+			Value: int64(v),
+		}, nil
+	case string:
+		return expression.NewStringLiteral(v), nil
+	// TODO: add more types
+	default:
+		return nil, fmt.Errorf("not implement var type %T", v)
+	}
 }
 
-func (v visitor) VisitParenthesis(expr *expression.ParenthesisExpression) (interface{}, error) {
+func (v visitor) VisitParenthesis(expr *expression.ParenthesisExpression) (expression.Expression, error) {
 	return v.Visit(expr.Child)
 }
 
-func (v visitor) VisitArray(expr *expression.ArrayExpression) (interface{}, error) {
-	results := make([]interface{}, 0, len(expr.Children))
-
-	for _, child := range expr.Children {
-		result, err := v.Visit(child)
-		if err != nil {
-			return nil, err
-		}
-
-		results = append(results, result)
-	}
-
-	return results, nil
+func (v visitor) VisitArray(expr *expression.ArrayExpression) (expression.Expression, error) {
+	return expr, nil
 }
 
-func (v visitor) VisitUnary(expr *expression.UnaryExpression) (interface{}, error) {
+func (v visitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Not:
 		return v.visitNot(expr)
@@ -70,7 +73,7 @@ func (v visitor) VisitUnary(expr *expression.UnaryExpression) (interface{}, erro
 	}
 }
 
-func (v visitor) VisitBinary(expr *expression.BinaryExpression) (interface{}, error) {
+func (v visitor) VisitBinary(expr *expression.BinaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Or:
 		return v.visitOr(expr)

@@ -6,88 +6,93 @@ import (
 	"github.com/haunt98/evaluator/pkg/expression"
 )
 
-func (v *visitor) visitOr(expr *expression.BinaryExpression) (interface{}, error) {
-	rawLeftResult, err := v.Visit(expr.Left)
+func (v *visitor) visitOr(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
 	}
 
-	leftResult, ok := rawLeftResult.(bool)
+	leftLit, ok := left.(*expression.BoolLiteral)
 	if !ok {
-		return nil, fmt.Errorf("expect bool")
+		return nil, fmt.Errorf("expect bool literal got %s", left)
 	}
 
-	// true or ? = true
-	if leftResult {
-		return true, nil
+	// true or any -> true
+	if leftLit.Value {
+		return leftLit, nil
 	}
 
-	rawRightResult, err := v.Visit(expr.Right)
+	right, err := v.Visit(expr.Right)
 	if err != nil {
 		return nil, err
 	}
 
-	rightResult, ok := rawRightResult.(bool)
+	rightLit, ok := right.(*expression.BoolLiteral)
 	if !ok {
-		return nil, fmt.Errorf("expect bool")
+		return nil, fmt.Errorf("expect bool literal got %s", right)
 	}
 
-	return rightResult, nil
+	return rightLit, nil
 }
 
-func (v *visitor) visitAnd(expr *expression.BinaryExpression) (interface{}, error) {
-	rawLeftResult, err := v.Visit(expr.Left)
+func (v *visitor) visitAnd(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
 	}
 
-	leftResult, ok := rawLeftResult.(bool)
+	leftLit, ok := left.(*expression.BoolLiteral)
 	if !ok {
-		return nil, fmt.Errorf("expect bool")
+		return nil, fmt.Errorf("expect bool literal got %s", left)
 	}
 
-	// false and ? = false
-	if !leftResult {
-		return false, nil
+	// false and any -> false
+	if !leftLit.Value {
+		return leftLit, nil
 	}
 
-	rawRightResult, err := v.Visit(expr.Right)
+	right, err := v.Visit(expr.Right)
 	if err != nil {
 		return nil, err
 	}
 
-	rightResult, ok := rawRightResult.(bool)
+	rightLit, ok := right.(*expression.BoolLiteral)
 	if !ok {
-		return nil, fmt.Errorf("expect bool")
+		return nil, fmt.Errorf("expect bool literal got %s", right)
 	}
 
-	return rightResult, nil
+	return rightLit, nil
 }
 
-func (v *visitor) visitEqual(expr *expression.BinaryExpression) (interface{}, error) {
-	leftResult, err := v.Visit(expr.Left)
+func (v *visitor) visitEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
 	}
 
-	rightResult, err := v.Visit(expr.Right)
+	right, err := v.Visit(expr.Right)
 	if err != nil {
 		return nil, err
 	}
 
-	return leftResult == rightResult, nil
+	// TODO: this is just wrong, need rewrite
+	return &expression.BoolLiteral{
+		Value: left == right,
+	}, nil
 }
 
-func (v *visitor) visitNotEqual(expr *expression.BinaryExpression) (interface{}, error) {
-	leftResult, err := v.Visit(expr.Left)
+func (v *visitor) visitNotEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+	equalExpr, err := v.visitEqual(expr)
 	if err != nil {
 		return nil, err
 	}
 
-	rightResult, err := v.Visit(expr.Right)
-	if err != nil {
-		return nil, err
+	equalLit, ok := equalExpr.(*expression.BoolLiteral)
+	if !ok {
+		return nil, fmt.Errorf("export bool literal got %s", equalExpr)
 	}
 
-	return leftResult != rightResult, nil
+	return &expression.BoolLiteral{
+		Value: !equalLit.Value,
+	}, nil
 }

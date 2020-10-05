@@ -11,7 +11,7 @@ type testCase struct {
 	name       string
 	inputExpr  expression.Expression
 	inputArgs  map[string]interface{}
-	wantResult interface{}
+	wantResult expression.Expression
 	wantErr    error
 }
 
@@ -23,7 +23,7 @@ func generateTestCaseLiteral() []testCase {
 				Value: true,
 			},
 			inputArgs:  nil,
-			wantResult: true,
+			wantResult: expression.NewBoolLiteral(true),
 			wantErr:    nil,
 		},
 		{
@@ -32,7 +32,7 @@ func generateTestCaseLiteral() []testCase {
 				Value: 1,
 			},
 			inputArgs:  nil,
-			wantResult: int64(1),
+			wantResult: expression.NewIntLiteral(1),
 			wantErr:    nil,
 		},
 		{
@@ -41,7 +41,7 @@ func generateTestCaseLiteral() []testCase {
 				Value: "a",
 			},
 			inputArgs:  nil,
-			wantResult: "a",
+			wantResult: expression.NewStringLiteral("a"),
 			wantErr:    nil,
 		},
 	}
@@ -57,7 +57,7 @@ func generateTestCaseVar() []testCase {
 			inputArgs: map[string]interface{}{
 				"x": "xxx",
 			},
-			wantResult: "xxx",
+			wantResult: expression.NewStringLiteral("xxx"),
 			wantErr:    nil,
 		},
 	}
@@ -73,7 +73,7 @@ func generateTestCaseParenthesis() []testCase {
 				},
 			},
 			inputArgs:  nil,
-			wantResult: true,
+			wantResult: expression.NewBoolLiteral(true),
 			wantErr:    nil,
 		},
 		{
@@ -84,7 +84,7 @@ func generateTestCaseParenthesis() []testCase {
 				},
 			},
 			inputArgs:  nil,
-			wantResult: int64(1),
+			wantResult: expression.NewIntLiteral(1),
 			wantErr:    nil,
 		},
 		{
@@ -95,7 +95,7 @@ func generateTestCaseParenthesis() []testCase {
 				},
 			},
 			inputArgs:  nil,
-			wantResult: "a",
+			wantResult: expression.NewStringLiteral("a"),
 			wantErr:    nil,
 		},
 		{
@@ -108,7 +108,7 @@ func generateTestCaseParenthesis() []testCase {
 			inputArgs: map[string]interface{}{
 				"x": "xxx",
 			},
-			wantResult: "xxx",
+			wantResult: expression.NewStringLiteral("xxx"),
 			wantErr:    nil,
 		},
 	}
@@ -126,11 +126,9 @@ func generateTestCaseArray() []testCase {
 					},
 				},
 			},
-			inputArgs: nil,
-			wantResult: []interface{}{
-				true,
-			},
-			wantErr: nil,
+			inputArgs:  nil,
+			wantResult: expression.NewArrayExpression(expression.NewBoolLiteral(true)),
+			wantErr:    nil,
 		},
 		{
 			name: "array",
@@ -144,12 +142,9 @@ func generateTestCaseArray() []testCase {
 					},
 				},
 			},
-			inputArgs: nil,
-			wantResult: []interface{}{
-				true,
-				false,
-			},
-			wantErr: nil,
+			inputArgs:  nil,
+			wantResult: expression.NewArrayExpression(expression.NewBoolLiteral(true), expression.NewBoolLiteral(false)),
+			wantErr:    nil,
 		},
 	}
 }

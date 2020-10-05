@@ -6,6 +6,12 @@ type ArrayExpression struct {
 	Children []Expression
 }
 
+func NewArrayExpression(exprs ...Expression) *ArrayExpression {
+	return &ArrayExpression{
+		Children: exprs,
+	}
+}
+
 func (expr *ArrayExpression) String() string {
 	childrenRepresent := make([]string, len(expr.Children))
 	for i, child := range expr.Children {
@@ -15,6 +21,6 @@ func (expr *ArrayExpression) String() string {
 	return "[" + strings.Join(childrenRepresent, ",") + "]"
 }
 
-func (expr *ArrayExpression) Accept(v Visitor) (interface{}, error) {
+func (expr *ArrayExpression) Accept(v Visitor) (Expression, error) {
 	return v.VisitArray(expr)
 }

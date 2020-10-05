@@ -10,15 +10,15 @@ import (
 func Evaluate(expr expression.Expression, args map[string]interface{}) (bool, error) {
 	v := visitor.NewVisitor(args)
 
-	rawResult, err := v.Visit(expr)
+	expr, err := v.Visit(expr)
 	if err != nil {
 		return false, err
 	}
 
-	result, ok := rawResult.(bool)
+	lit, ok := expr.(*expression.BoolLiteral)
 	if !ok {
-		return false, fmt.Errorf("expect bool")
+		return false, fmt.Errorf("expect bool literal got %s", expr)
 	}
 
-	return result, nil
+	return lit.Value, nil
 }

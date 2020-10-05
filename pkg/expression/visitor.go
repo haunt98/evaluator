@@ -1,15 +1,15 @@
 package expression
 
 type Visitor interface {
-	Visit(expr Expression) (interface{}, error)
+	Visit(expr Expression) (Expression, error)
 
-	VisitBool(lit *BoolLiteral) (interface{}, error)
-	VisitInt(lit *IntLiteral) (interface{}, error)
-	VisitString(lit *StringLiteral) (interface{}, error)
+	VisitBool(lit *BoolLiteral) (Expression, error)
+	VisitInt(lit *IntLiteral) (Expression, error)
+	VisitString(lit *StringLiteral) (Expression, error)
 
-	VisitVar(expr *VarExpression) (interface{}, error)
-	VisitParenthesis(expr *ParenthesisExpression) (interface{}, error)
-	VisitArray(expr *ArrayExpression) (interface{}, error)
-	VisitUnary(expr *UnaryExpression) (interface{}, error)
-	VisitBinary(expr *BinaryExpression) (interface{}, error)
+	VisitVar(expr *VarExpression) (Expression, error)
+	VisitParenthesis(expr *ParenthesisExpression) (Expression, error)
+	VisitArray(expr *ArrayExpression) (Expression, error)
+	VisitUnary(expr *UnaryExpression) (Expression, error)
+	VisitBinary(expr *BinaryExpression) (Expression, error)
 }
