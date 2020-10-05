@@ -7,6 +7,12 @@ type ArrayExpression struct {
 }
 
 func NewArrayExpression(children ...Expression) *ArrayExpression {
+	if len(children) == 0 {
+		return &ArrayExpression{
+			Children: []Expression{},
+		}
+	}
+
 	return &ArrayExpression{
 		Children: children,
 	}

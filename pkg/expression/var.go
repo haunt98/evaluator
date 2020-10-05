@@ -6,6 +6,12 @@ type VarExpression struct {
 	Value string
 }
 
+func NewVarExpression(value string) *VarExpression {
+	return &VarExpression{
+		Value: value,
+	}
+}
+
 func (expr *VarExpression) String() string {
 	return token.Var.String() + expr.Value
 }

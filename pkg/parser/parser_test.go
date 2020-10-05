@@ -18,36 +18,28 @@ type testCase struct {
 func generateTestCaseLiteral() []testCase {
 	return []testCase{
 		{
-			name:  "bool",
-			input: "true",
-			wantExpr: &expression.BoolLiteral{
-				Value: true,
-			},
-			wantErr: nil,
+			name:     "bool",
+			input:    "true",
+			wantExpr: expression.NewBoolLiteral(true),
+			wantErr:  nil,
 		},
 		{
-			name:  "bool",
-			input: "false",
-			wantExpr: &expression.BoolLiteral{
-				Value: false,
-			},
-			wantErr: nil,
+			name:     "bool",
+			input:    "false",
+			wantExpr: expression.NewBoolLiteral(false),
+			wantErr:  nil,
 		},
 		{
-			name:  "int",
-			input: "1",
-			wantExpr: &expression.IntLiteral{
-				Value: 1,
-			},
-			wantErr: nil,
+			name:     "int",
+			input:    "1",
+			wantExpr: expression.NewIntLiteral(1),
+			wantErr:  nil,
 		},
 		{
-			name:  "string",
-			input: `"a"`,
-			wantExpr: &expression.StringLiteral{
-				Value: "a",
-			},
-			wantErr: nil,
+			name:     "string",
+			input:    `"a"`,
+			wantExpr: expression.NewStringLiteral("a"),
+			wantErr:  nil,
 		},
 	}
 }
@@ -55,28 +47,22 @@ func generateTestCaseLiteral() []testCase {
 func generateTestCaseVar() []testCase {
 	return []testCase{
 		{
-			name:  "var",
-			input: "$x",
-			wantExpr: &expression.VarExpression{
-				Value: "x",
-			},
-			wantErr: nil,
+			name:     "var",
+			input:    "$x",
+			wantExpr: expression.NewVarExpression("x"),
+			wantErr:  nil,
 		},
 		{
-			name:  "var",
-			input: "$1",
-			wantExpr: &expression.VarExpression{
-				Value: "1",
-			},
-			wantErr: nil,
+			name:     "var",
+			input:    "$1",
+			wantExpr: expression.NewVarExpression("1"),
+			wantErr:  nil,
 		},
 		{
-			name:  "var",
-			input: "$_",
-			wantExpr: &expression.VarExpression{
-				Value: "_",
-			},
-			wantErr: nil,
+			name:     "var",
+			input:    "$_",
+			wantExpr: expression.NewVarExpression("_"),
+			wantErr:  nil,
 		},
 	}
 }
@@ -84,15 +70,10 @@ func generateTestCaseVar() []testCase {
 func generateTestCaseUnary() []testCase {
 	return []testCase{
 		{
-			name:  "not",
-			input: "!true",
-			wantExpr: &expression.UnaryExpression{
-				Operator: token.Not,
-				Child: &expression.BoolLiteral{
-					Value: true,
-				},
-			},
-			wantErr: nil,
+			name:     "not",
+			input:    "!true",
+			wantExpr: expression.NewUnaryExpression(token.Not, expression.NewBoolLiteral(true)),
+			wantErr:  nil,
 		},
 	}
 }
@@ -100,33 +81,30 @@ func generateTestCaseUnary() []testCase {
 func generateTestCaseParenthesis() []testCase {
 	return []testCase{
 		{
-			name:  "parenthesis single bool",
-			input: "(true)",
-			wantExpr: &expression.ParenthesisExpression{
-				Child: &expression.BoolLiteral{
-					Value: true,
-				},
-			},
-			wantErr: nil,
+			name:     "parenthesis single bool",
+			input:    "(true)",
+			wantExpr: expression.NewBoolLiteral(true),
+			wantErr:  nil,
 		},
 		{
-			name:  "parenthesis single int",
-			input: "(1)",
-			wantExpr: &expression.ParenthesisExpression{
-				Child: &expression.IntLiteral{
-					Value: 1,
-				},
-			},
-			wantErr: nil,
+			name:     "parenthesis single int",
+			input:    "(1)",
+			wantExpr: expression.NewIntLiteral(1),
+			wantErr:  nil,
 		},
 		{
-			name:  "parenthesis single string",
-			input: `("a")`,
-			wantExpr: &expression.ParenthesisExpression{
-				Child: &expression.StringLiteral{
-					Value: "a",
-				},
-			},
+			name:     "parenthesis single string",
+			input:    `("a")`,
+			wantExpr: expression.NewStringLiteral("a"),
+			wantErr:  nil,
+		},
+		{
+			name:  "parenthesis and",
+			input: `(true and false)`,
+			wantExpr: expression.NewBinaryExpression(token.And,
+				expression.NewBoolLiteral(true),
+				expression.NewBoolLiteral(false),
+			),
 			wantErr: nil,
 		},
 	}
@@ -135,56 +113,34 @@ func generateTestCaseParenthesis() []testCase {
 func generateTestCaseArray() []testCase {
 	return []testCase{
 		{
-			name:  "array empty",
-			input: "[]",
-			wantExpr: &expression.ArrayExpression{
-				Children: []expression.Expression{},
-			},
-			wantErr: nil,
+			name:     "array empty",
+			input:    "[]",
+			wantExpr: expression.NewArrayExpression(),
+			wantErr:  nil,
 		},
 		{
-			name:  "array single item",
-			input: "[true]",
-			wantExpr: &expression.ArrayExpression{
-				Children: []expression.Expression{
-					&expression.BoolLiteral{
-						Value: true,
-					},
-				},
-			},
-			wantErr: nil,
+			name:     "array single item",
+			input:    "[true]",
+			wantExpr: expression.NewArrayExpression(expression.NewBoolLiteral(true)),
+			wantErr:  nil,
 		},
 		{
 			name:  "array multi items",
 			input: "[true, false]",
-			wantExpr: &expression.ArrayExpression{
-				Children: []expression.Expression{
-					&expression.BoolLiteral{
-						Value: true,
-					},
-					&expression.BoolLiteral{
-						Value: false,
-					},
-				},
-			},
+			wantExpr: expression.NewArrayExpression(
+				expression.NewBoolLiteral(true),
+				expression.NewBoolLiteral(false),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "array multi complex items",
 			input: `[true, 1, "a"]`,
-			wantExpr: &expression.ArrayExpression{
-				Children: []expression.Expression{
-					&expression.BoolLiteral{
-						Value: true,
-					},
-					&expression.IntLiteral{
-						Value: 1,
-					},
-					&expression.StringLiteral{
-						Value: "a",
-					},
-				},
-			},
+			wantExpr: expression.NewArrayExpression(
+				expression.NewBoolLiteral(true),
+				expression.NewIntLiteral(1),
+				expression.NewStringLiteral("a"),
+			),
 			wantErr: nil,
 		},
 	}
@@ -195,155 +151,97 @@ func generateTestCaseBinary() []testCase {
 		{
 			name:  "or",
 			input: "true or false",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.Or,
-				Left: &expression.BoolLiteral{
-					Value: true,
-				},
-				Right: &expression.BoolLiteral{
-					Value: false,
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.Or,
+				expression.NewBoolLiteral(true),
+				expression.NewBoolLiteral(false),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "and",
 			input: "false and true",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.And,
-				Left: &expression.BoolLiteral{
-					Value: false,
-				},
-				Right: &expression.BoolLiteral{
-					Value: true,
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.And,
+				expression.NewBoolLiteral(false),
+				expression.NewBoolLiteral(true),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "equal",
 			input: "1 == 2",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.Equal,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.IntLiteral{
-					Value: int64(2),
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.Equal,
+				expression.NewIntLiteral(1),
+				expression.NewIntLiteral(2),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "not equal",
 			input: "1 != 2",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.NotEqual,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.IntLiteral{
-					Value: int64(2),
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.NotEqual,
+				expression.NewIntLiteral(1),
+				expression.NewIntLiteral(2),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "less",
 			input: "1 < 2",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.Less,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.IntLiteral{
-					Value: int64(2),
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.Less,
+				expression.NewIntLiteral(1),
+				expression.NewIntLiteral(2),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "less or equal",
 			input: "1 <= 2",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.LessOrEqual,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.IntLiteral{
-					Value: int64(2),
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.LessOrEqual,
+				expression.NewIntLiteral(1),
+				expression.NewIntLiteral(2),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "greater",
 			input: "1 > 2",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.Greater,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.IntLiteral{
-					Value: int64(2),
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.Greater,
+				expression.NewIntLiteral(1),
+				expression.NewIntLiteral(2),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "greater or equal",
 			input: "1 >= 2",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.GreaterOrEqual,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.IntLiteral{
-					Value: int64(2),
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.GreaterOrEqual,
+				expression.NewIntLiteral(1),
+				expression.NewIntLiteral(2),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "in",
 			input: "1 in [1, 2]",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.In,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.ArrayExpression{
-					Children: []expression.Expression{
-						&expression.IntLiteral{
-							Value: int64(1),
-						},
-						&expression.IntLiteral{
-							Value: int64(2),
-						},
-					},
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.In,
+				expression.NewIntLiteral(1),
+				expression.NewArrayExpression(
+					expression.NewIntLiteral(1),
+					expression.NewIntLiteral(2),
+				),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "not in",
 			input: "1 notin [1, 2]",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.NotIn,
-				Left: &expression.IntLiteral{
-					Value: int64(1),
-				},
-				Right: &expression.ArrayExpression{
-					Children: []expression.Expression{
-						&expression.IntLiteral{
-							Value: int64(1),
-						},
-						&expression.IntLiteral{
-							Value: int64(2),
-						},
-					},
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.NotIn,
+				expression.NewIntLiteral(1),
+				expression.NewArrayExpression(
+					expression.NewIntLiteral(1),
+					expression.NewIntLiteral(2),
+				),
+			),
 			wantErr: nil,
 		},
 	}
@@ -354,63 +252,37 @@ func generateTestCaseComplex() []testCase {
 		{
 			name:  "complex",
 			input: "$x or $y or $z",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.Or,
-				Left: &expression.BinaryExpression{
-					Operator: token.Or,
-					Left: &expression.VarExpression{
-						Value: "x",
-					},
-					Right: &expression.VarExpression{
-						Value: "y",
-					},
-				},
-				Right: &expression.VarExpression{
-					Value: "z",
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.Or,
+				expression.NewBinaryExpression(token.Or,
+					expression.NewVarExpression("x"),
+					expression.NewVarExpression("y"),
+				),
+				expression.NewVarExpression("z"),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "complex",
 			input: "$x or $y and $z",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.Or,
-				Left: &expression.VarExpression{
-					Value: "x",
-				},
-				Right: &expression.BinaryExpression{
-					Operator: token.And,
-					Left: &expression.VarExpression{
-						Value: "y",
-					},
-					Right: &expression.VarExpression{
-						Value: "z",
-					},
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.Or,
+				expression.NewVarExpression("x"),
+				expression.NewBinaryExpression(token.And,
+					expression.NewVarExpression("y"),
+					expression.NewVarExpression("z"),
+				),
+			),
 			wantErr: nil,
 		},
 		{
 			name:  "complex",
 			input: "($x or $y) and $z",
-			wantExpr: &expression.BinaryExpression{
-				Operator: token.And,
-				Left: &expression.ParenthesisExpression{
-					Child: &expression.BinaryExpression{
-						Operator: token.Or,
-						Left: &expression.VarExpression{
-							Value: "x",
-						},
-						Right: &expression.VarExpression{
-							Value: "y",
-						},
-					},
-				},
-				Right: &expression.VarExpression{
-					Value: "z",
-				},
-			},
+			wantExpr: expression.NewBinaryExpression(token.And,
+				expression.NewBinaryExpression(token.Or,
+					expression.NewVarExpression("x"),
+					expression.NewVarExpression("y"),
+				),
+				expression.NewVarExpression("z"),
+			),
 			wantErr: nil,
 		},
 	}

@@ -22,9 +22,5 @@ func (p *Parser) ledInfix(tokenText scanner.TokenText, expr expression.Expressio
 		return nil, err
 	}
 
-	return &expression.BinaryExpression{
-		Operator: tokenText.Token,
-		Left:     expr,
-		Right:    rightExpr,
-	}, nil
+	return expression.NewBinaryExpression(tokenText.Token, expr, rightExpr), nil
 }

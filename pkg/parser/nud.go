@@ -28,9 +28,7 @@ func (p *Parser) nudBool(tokenText scanner.TokenText) (expression.Expression, er
 		return nil, fmt.Errorf("failed to parse bool token %s text %s", tokenText.Token, tokenText.Text)
 	}
 
-	return &expression.BoolLiteral{
-		Value: value,
-	}, nil
+	return expression.NewBoolLiteral(value), nil
 }
 
 func (p *Parser) nudInt(tokenText scanner.TokenText) (expression.Expression, error) {
@@ -39,21 +37,15 @@ func (p *Parser) nudInt(tokenText scanner.TokenText) (expression.Expression, err
 		return nil, fmt.Errorf("failed to parse int token %s text %s", tokenText.Token, tokenText.Text)
 	}
 
-	return &expression.IntLiteral{
-		Value: value,
-	}, nil
+	return expression.NewIntLiteral(value), nil
 }
 
 func (p *Parser) nudString(tokenText scanner.TokenText) (expression.Expression, error) {
-	return &expression.StringLiteral{
-		Value: tokenText.Text,
-	}, nil
+	return expression.NewStringLiteral(tokenText.Text), nil
 }
 
 func (p *Parser) nudVar(tokenText scanner.TokenText) (expression.Expression, error) {
-	return &expression.VarExpression{
-		Value: tokenText.Text,
-	}, nil
+	return expression.NewVarExpression(tokenText.Text), nil
 }
 
 func (p *Parser) nudNot(_ scanner.TokenText) (expression.Expression, error) {
@@ -62,10 +54,7 @@ func (p *Parser) nudNot(_ scanner.TokenText) (expression.Expression, error) {
 		return nil, err
 	}
 
-	return &expression.UnaryExpression{
-		Operator: token.Not,
-		Child:    expr,
-	}, nil
+	return expression.NewUnaryExpression(token.Not, expr), nil
 }
 
 func (p *Parser) nudOpenParenthesis(_ scanner.TokenText) (expression.Expression, error) {
@@ -78,9 +67,7 @@ func (p *Parser) nudOpenParenthesis(_ scanner.TokenText) (expression.Expression,
 		return nil, fmt.Errorf("expect ) got token %s text %s", expect.Token, expect.Text)
 	}
 
-	return &expression.ParenthesisExpression{
-		Child: expr,
-	}, nil
+	return expr, nil
 }
 
 func (p *Parser) nudSquareBracket(_ scanner.TokenText) (expression.Expression, error) {
@@ -111,7 +98,5 @@ func (p *Parser) nudSquareBracket(_ scanner.TokenText) (expression.Expression, e
 		return nil, fmt.Errorf("expect ] got token %s text %s", expect.Token, expect.Text)
 	}
 
-	return &expression.ArrayExpression{
-		Children: children,
-	}, nil
+	return expression.NewArrayExpression(children...), nil
 }
