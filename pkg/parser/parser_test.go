@@ -443,22 +443,3 @@ func TestParser_Parse(t *testing.T) {
 		})
 	}
 }
-
-//goos: linux
-//goarch: amd64
-//pkg: evaluator/pkg/parser
-//BenchmarkParser_Parse
-//BenchmarkParser_Parse-4   	  172706	      6449 ns/op
-func BenchmarkParser_Parse(b *testing.B) {
-	input := `!($x == true or $y != 1) and $z == "a" or $t in [true, 1, "a"]`
-
-	var expr expression.Expression
-	var err error
-	for n := 0; n < b.N; n++ {
-		p := NewParser(input)
-		expr, err = p.Parse()
-	}
-
-	_ = err
-	_ = expr
-}
