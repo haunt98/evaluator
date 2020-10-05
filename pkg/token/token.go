@@ -39,17 +39,27 @@ const (
 	fourthLevel = 4
 )
 
+var (
+	precedences = map[Token]int{
+		Or:             firstLevel,
+		And:            secondLevel,
+		Equal:          thirdLevel,
+		NotEqual:       thirdLevel,
+		Less:           thirdLevel,
+		LessOrEqual:    thirdLevel,
+		Greater:        thirdLevel,
+		GreaterOrEqual: thirdLevel,
+		In:             thirdLevel,
+		NotIn:          thirdLevel,
+		Not:            fourthLevel,
+	}
+)
+
 func (tok Token) Precedence() int {
-	switch tok {
-	case Or:
-		return firstLevel
-	case And:
-		return secondLevel
-	case Equal, NotEqual, Less, LessOrEqual, Greater, GreaterOrEqual, In, NotIn:
-		return thirdLevel
-	case Not:
-		return fourthLevel
-	default:
+	precedence, ok := precedences[tok]
+	if !ok {
 		return LowestLevel
 	}
+
+	return precedence
 }
