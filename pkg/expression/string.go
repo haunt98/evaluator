@@ -11,7 +11,7 @@ func NewStringLiteral(value string) *StringLiteral {
 }
 
 func (lit *StringLiteral) String() string {
-	return lit.Value
+	return `"` + lit.Value + `"`
 }
 
 func (lit *StringLiteral) Accept(v Visitor) (Expression, error) {

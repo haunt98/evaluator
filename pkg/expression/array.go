@@ -6,9 +6,9 @@ type ArrayExpression struct {
 	Children []Expression
 }
 
-func NewArrayExpression(exprs ...Expression) *ArrayExpression {
+func NewArrayExpression(children ...Expression) *ArrayExpression {
 	return &ArrayExpression{
-		Children: exprs,
+		Children: children,
 	}
 }
 
@@ -18,7 +18,7 @@ func (expr *ArrayExpression) String() string {
 		childrenRepresent[i] = child.String()
 	}
 
-	return "[" + strings.Join(childrenRepresent, ",") + "]"
+	return "[" + strings.Join(childrenRepresent, " ,") + "]"
 }
 
 func (expr *ArrayExpression) Accept(v Visitor) (Expression, error) {

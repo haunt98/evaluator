@@ -16,7 +16,7 @@ func NewBinaryExpression(op token.Token, left, right Expression) *BinaryExpressi
 }
 
 func (expr *BinaryExpression) String() string {
-	return expr.Left.String() + expr.Operator.String() + expr.Right.String()
+	return expr.Left.String() + " " + expr.Operator.String() + " " + expr.Right.String()
 }
 
 func (expr *BinaryExpression) Accept(v Visitor) (Expression, error) {

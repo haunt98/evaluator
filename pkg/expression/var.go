@@ -1,11 +1,13 @@
 package expression
 
+import "github.com/haunt98/evaluator/pkg/token"
+
 type VarExpression struct {
 	Value string
 }
 
 func (expr *VarExpression) String() string {
-	return "$" + expr.Value
+	return token.Var.String() + expr.Value
 }
 
 func (expr *VarExpression) Accept(v Visitor) (Expression, error) {
