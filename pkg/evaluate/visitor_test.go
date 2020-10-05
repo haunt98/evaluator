@@ -3,8 +3,8 @@ package evaluate
 import (
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/haunt98/evaluator/pkg/expression"
-	"github.com/stretchr/testify/assert"
 )
 
 type testCase struct {
@@ -170,9 +170,15 @@ func TestVisitor_Visit(t *testing.T) {
 			}
 
 			gotResult, gotErr := v.Visit(tc.inputExpr)
-
-			assert.Equal(t, tc.wantErr, gotErr)
-			assert.Equal(t, tc.wantResult, gotResult)
+			if diff := cmp.Diff(tc.wantErr, gotErr); diff != "" {
+				t.Errorf("mismatch (-want +got):\n%s", diff)
+			}
+			if tc.wantErr != nil {
+				return
+			}
+			if diff := cmp.Diff(tc.wantResult, gotResult); diff != "" {
+				t.Errorf("mismatch (-want +got):\n%s", diff)
+			}
 		})
 	}
 }

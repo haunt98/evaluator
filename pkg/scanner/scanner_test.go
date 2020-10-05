@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/haunt98/evaluator/pkg/token"
-	"github.com/stretchr/testify/assert"
 )
 
 type scannerTestCase struct {
@@ -274,9 +274,11 @@ func TestScanner_Scan(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			s := NewScanner(strings.NewReader(tc.input))
-			got := s.Scan()
 
-			assert.Equal(t, tc.want, got)
+			got := s.Scan()
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("mismatch (-want +got):\n%s", diff)
+			}
 		})
 	}
 }
