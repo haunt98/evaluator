@@ -8,14 +8,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type testCase struct {
+type scannerTestCase struct {
 	name  string
 	input string
 	want  TokenText
 }
 
-func generateTestCaseLiteral() []testCase {
-	return []testCase{
+func generateTestCaseLiteral() []scannerTestCase {
+	return []scannerTestCase{
 		{
 			name:  "ident",
 			input: "x",
@@ -59,8 +59,8 @@ func generateTestCaseLiteral() []testCase {
 	}
 }
 
-func generateTestCaseVar() []testCase {
-	return []testCase{
+func generateTestCaseVar() []scannerTestCase {
+	return []scannerTestCase{
 		{
 			name:  "var",
 			input: "$x",
@@ -88,8 +88,8 @@ func generateTestCaseVar() []testCase {
 	}
 }
 
-func generateTestCaseOperator() []testCase {
-	return []testCase{
+func generateTestCaseOperator() []scannerTestCase {
+	return []scannerTestCase{
 		{
 			name:  "equal",
 			input: "==",
@@ -197,8 +197,8 @@ func generateTestCaseOperator() []testCase {
 	}
 }
 
-func generateTestCaseOthers() []testCase {
-	return []testCase{
+func generateTestCaseOthers() []scannerTestCase {
+	return []scannerTestCase{
 		{
 			name:  "open parenthesis",
 			input: "(",
@@ -250,8 +250,8 @@ func generateTestCaseOthers() []testCase {
 	}
 }
 
-func generateTestCaseIllegal() []testCase {
-	return []testCase{
+func generateTestCaseIllegal() []scannerTestCase {
+	return []scannerTestCase{
 		{
 			name:  "=!",
 			input: "=!",
@@ -264,7 +264,7 @@ func generateTestCaseIllegal() []testCase {
 }
 
 func TestScanner_Scan(t *testing.T) {
-	var tests []testCase
+	var tests []scannerTestCase
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)
 	tests = append(tests, generateTestCaseOperator()...)
