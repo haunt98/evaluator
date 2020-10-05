@@ -40,6 +40,32 @@ const (
 )
 
 var (
+	represents = map[Token]string{
+		Illegal:            "Illegal",
+		EOF:                "EOF",
+		Ident:              "Ident",
+		Bool:               "Bool",
+		Int:                "Int",
+		String:             "String",
+		Var:                "Var",
+		Or:                 "Or",
+		And:                "And",
+		Equal:              "Equal ==",
+		NotEqual:           "NotEqual !=",
+		Less:               "Less <",
+		LessOrEqual:        "LessOrEqual <=",
+		Greater:            "Greater >",
+		GreaterOrEqual:     "GreaterOrEqual >=",
+		In:                 "In",
+		NotIn:              "NotIn",
+		Not:                "Not !",
+		OpenParenthesis:    "OpenParenthesis (",
+		CloseParenthesis:   "CloseParenthesis )",
+		OpenSquareBracket:  "OpenSquareBracket [",
+		CloseSquareBracket: "CloseSquareBracket ]",
+		Comma:              "Comma ,",
+	}
+
 	precedences = map[Token]int{
 		Or:             firstLevel,
 		And:            secondLevel,
@@ -54,6 +80,15 @@ var (
 		Not:            fourthLevel,
 	}
 )
+
+func (tok Token) String() string {
+	represent, ok := represents[tok]
+	if !ok {
+		return "Unknown"
+	}
+
+	return represent
+}
 
 func (tok Token) Precedence() int {
 	precedence, ok := precedences[tok]
