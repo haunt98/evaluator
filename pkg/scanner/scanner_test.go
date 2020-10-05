@@ -239,6 +239,27 @@ func generateTestCaseOthers() []testCase {
 				Text:  ",",
 			},
 		},
+		{
+			name:  "EOF",
+			input: "",
+			want: TokenText{
+				Token: token.EOF,
+				Text:  "",
+			},
+		},
+	}
+}
+
+func generateTestCaseIllegal() []testCase {
+	return []testCase{
+		{
+			name:  "=!",
+			input: "=!",
+			want: TokenText{
+				Token: token.Illegal,
+				Text:  "=!",
+			},
+		},
 	}
 }
 
@@ -248,6 +269,7 @@ func TestScanner_Scan(t *testing.T) {
 	tests = append(tests, generateTestCaseVar()...)
 	tests = append(tests, generateTestCaseOperator()...)
 	tests = append(tests, generateTestCaseOthers()...)
+	tests = append(tests, generateTestCaseIllegal()...)
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
