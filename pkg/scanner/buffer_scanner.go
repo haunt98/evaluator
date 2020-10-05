@@ -18,6 +18,8 @@ func NewBufferScanner(s *Scanner) *BufferScanner {
 }
 
 // Scan() return next token and it's gone
+// if cached is true -> return buffer and set cached is false
+// if cached is false -> return scanner result and stores it in buffer
 func (bs *BufferScanner) Scan() TokenText {
 	if bs.buf.isCached {
 		bs.buf.isCached = false
