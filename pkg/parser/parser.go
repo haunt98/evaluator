@@ -62,12 +62,11 @@ func (p *Parser) Parse() (expression.Expression, error) {
 	return p.parseExpression(token.LowestLevel)
 }
 
-func (p *Parser) parseExpression(precedence int) (result expression.Expression, err error) {
+func (p *Parser) parseExpression(precedence int) (expression.Expression, error) {
 	tokenText := p.bs.Scan()
-	result, err = p.nud(tokenText)
+	result, err := p.nud(tokenText)
 	if err != nil {
-		err = fmt.Errorf("failed to null denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
-		return
+		return nil, fmt.Errorf("failed to null denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
 	}
 
 	for {
@@ -78,10 +77,9 @@ func (p *Parser) parseExpression(precedence int) (result expression.Expression, 
 		tokenText = p.bs.Scan()
 		result, err = p.led(tokenText, result)
 		if err != nil {
-			err = fmt.Errorf("failed to left denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
-			return
+			return nil, fmt.Errorf("failed to left denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
 		}
 	}
 
-	return
+	return result, nil
 }
