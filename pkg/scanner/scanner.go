@@ -37,7 +37,8 @@ func (s *Scanner) Scan() (result TokenText) {
 	case scanner.EOF:
 		result.Token = token.EOF
 	case scanner.Ident:
-		switch strings.ToLower(text) {
+		result.Text = strings.ToLower(text)
+		switch result.Text {
 		case "true", "false":
 			result.Token = token.Bool
 		case "or":
