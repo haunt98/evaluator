@@ -7,6 +7,10 @@ type UnaryExpression struct {
 	Child    Expression
 }
 
+func (expr *UnaryExpression) String() string {
+	return expr.Operator.String() + expr.Child.String()
+}
+
 func (expr *UnaryExpression) Accept(v Visitor) (interface{}, error) {
 	return v.VisitUnary(expr)
 }
