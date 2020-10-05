@@ -9,102 +9,82 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
-func (p *Parser) nud(tokenText scanner.TokenText) (result expression.Expression, err error) {
+const (
+	defaultNumberOfChildren = 10
+)
+
+func (p *Parser) nud(tokenText scanner.TokenText) (expression.Expression, error) {
 	fn, ok := p.nudFns[tokenText.Token]
 	if !ok {
-		err = fmt.Errorf("not implement null denotation token %s text %s", tokenText.Token, tokenText.Text)
-		return
+		return nil, fmt.Errorf("not implement null denotation token %s text %s", tokenText.Token, tokenText.Text)
 	}
 
-	result, err = fn(tokenText)
-
-	return
+	return fn(tokenText)
 }
 
-func (p *Parser) nudBool(tokenText scanner.TokenText) (result expression.Expression, err error) {
-	var value bool
-	value, err = strconv.ParseBool(tokenText.Text)
+func (p *Parser) nudBool(tokenText scanner.TokenText) (expression.Expression, error) {
+	value, err := strconv.ParseBool(tokenText.Text)
 	if err != nil {
-		err = fmt.Errorf("failed to parse bool token %s text %s", tokenText.Token, tokenText.Text)
-		return
+		return nil, fmt.Errorf("failed to parse bool token %s text %s", tokenText.Token, tokenText.Text)
 	}
 
-	result = expression.BoolLiteral{
+	return &expression.BoolLiteral{
 		Value: value,
-	}
-
-	return
+	}, nil
 }
 
-func (p *Parser) nudInt(tokenText scanner.TokenText) (result expression.Expression, err error) {
-	var value int64
-	value, err = strconv.ParseInt(tokenText.Text, 10, 64)
+func (p *Parser) nudInt(tokenText scanner.TokenText) (expression.Expression, error) {
+	value, err := strconv.ParseInt(tokenText.Text, 10, 64)
 	if err != nil {
-		err = fmt.Errorf("failed to parse int token %s text %s", tokenText.Token, tokenText.Text)
-		return
+		return nil, fmt.Errorf("failed to parse int token %s text %s", tokenText.Token, tokenText.Text)
 	}
 
-	result = expression.IntLiteral{
+	return &expression.IntLiteral{
 		Value: value,
-	}
-
-	return
+	}, nil
 }
 
-func (p *Parser) nudString(tokenText scanner.TokenText) (result expression.Expression, err error) {
-	result = expression.StringLiteral{
+func (p *Parser) nudString(tokenText scanner.TokenText) (expression.Expression, error) {
+	return &expression.StringLiteral{
 		Value: tokenText.Text,
-	}
-
-	return
+	}, nil
 }
 
-func (p *Parser) nudVar(tokenText scanner.TokenText) (result expression.Expression, err error) {
-	result = expression.VarExpression{
+func (p *Parser) nudVar(tokenText scanner.TokenText) (expression.Expression, error) {
+	return &expression.VarExpression{
 		Value: tokenText.Text,
-	}
-
-	return
+	}, nil
 }
 
-func (p *Parser) nudNot(_ scanner.TokenText) (result expression.Expression, err error) {
-	var expr expression.Expression
-	expr, err = p.parseExpression(token.LowestLevel)
+func (p *Parser) nudNot(_ scanner.TokenText) (expression.Expression, error) {
+	expr, err := p.parseExpression(token.LowestLevel)
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	result = expression.UnaryExpression{
+	return &expression.UnaryExpression{
 		Operator: token.Not,
 		Child:    expr,
-	}
-
-	return
+	}, nil
 }
 
-func (p *Parser) nudOpenParenthesis(_ scanner.TokenText) (result expression.Expression, err error) {
-	var expr expression.Expression
-	expr, err = p.parseExpression(token.LowestLevel)
+func (p *Parser) nudOpenParenthesis(_ scanner.TokenText) (expression.Expression, error) {
+	expr, err := p.parseExpression(token.LowestLevel)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	if expect := p.bs.Scan(); expect.Token != token.CloseParenthesis {
-		err = fmt.Errorf("expect )")
-		return
+		return nil, fmt.Errorf("expect ) got token %s text %s", expect.Token, expect.Text)
 	}
 
-	result = expression.ParenthesisExpression{
+	return &expression.ParenthesisExpression{
 		Child: expr,
-	}
-
-	return
+	}, nil
 }
 
-func (p *Parser) nudSquareBracket(_ scanner.TokenText) (result expression.Expression, err error) {
-	expr := expression.ArrayExpression{
-		Children: nil,
-	}
+func (p *Parser) nudSquareBracket(_ scanner.TokenText) (expression.Expression, error) {
+	children := make([]expression.Expression, 0, defaultNumberOfChildren)
 
 	for {
 		if p.bs.Peek().Token == token.CloseSquareBracket {
@@ -112,12 +92,12 @@ func (p *Parser) nudSquareBracket(_ scanner.TokenText) (result expression.Expres
 		}
 
 		var child expression.Expression
-		child, err = p.parseExpression(token.LowestLevel)
+		child, err := p.parseExpression(token.LowestLevel)
 		if err != nil {
-			return
+			return nil, err
 		}
 
-		expr.Children = append(expr.Children, child)
+		children = append(children, child)
 
 		if p.bs.Peek().Token != token.Comma {
 			break
@@ -128,11 +108,10 @@ func (p *Parser) nudSquareBracket(_ scanner.TokenText) (result expression.Expres
 	}
 
 	if expect := p.bs.Scan(); expect.Token != token.CloseSquareBracket {
-		err = fmt.Errorf("expect ] got token %s text %s", expect.Token, expect.Text)
-		return
+		return nil, fmt.Errorf("expect ] got token %s text %s", expect.Token, expect.Text)
 	}
 
-	result = expr
-
-	return
+	return &expression.ArrayExpression{
+		Children: children,
+	}, nil
 }

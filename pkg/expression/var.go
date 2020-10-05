@@ -4,6 +4,6 @@ type VarExpression struct {
 	Value string
 }
 
-func (expr VarExpression) Accept(v Visitor) (interface{}, error) {
+func (expr *VarExpression) Accept(v Visitor) (interface{}, error) {
 	return v.VisitVar(expr)
 }

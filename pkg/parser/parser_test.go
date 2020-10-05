@@ -20,7 +20,7 @@ func generateTestCaseLiteral() []testCase {
 		{
 			name:  "bool",
 			input: "true",
-			wantExpr: expression.BoolLiteral{
+			wantExpr: &expression.BoolLiteral{
 				Value: true,
 			},
 			wantErr: nil,
@@ -28,7 +28,7 @@ func generateTestCaseLiteral() []testCase {
 		{
 			name:  "bool",
 			input: "false",
-			wantExpr: expression.BoolLiteral{
+			wantExpr: &expression.BoolLiteral{
 				Value: false,
 			},
 			wantErr: nil,
@@ -36,7 +36,7 @@ func generateTestCaseLiteral() []testCase {
 		{
 			name:  "int",
 			input: "1",
-			wantExpr: expression.IntLiteral{
+			wantExpr: &expression.IntLiteral{
 				Value: 1,
 			},
 			wantErr: nil,
@@ -44,7 +44,7 @@ func generateTestCaseLiteral() []testCase {
 		{
 			name:  "string",
 			input: `"a"`,
-			wantExpr: expression.StringLiteral{
+			wantExpr: &expression.StringLiteral{
 				Value: "a",
 			},
 			wantErr: nil,
@@ -57,7 +57,7 @@ func generateTestCaseVar() []testCase {
 		{
 			name:  "var",
 			input: "$x",
-			wantExpr: expression.VarExpression{
+			wantExpr: &expression.VarExpression{
 				Value: "x",
 			},
 			wantErr: nil,
@@ -65,7 +65,7 @@ func generateTestCaseVar() []testCase {
 		{
 			name:  "var",
 			input: "$1",
-			wantExpr: expression.VarExpression{
+			wantExpr: &expression.VarExpression{
 				Value: "1",
 			},
 			wantErr: nil,
@@ -73,7 +73,7 @@ func generateTestCaseVar() []testCase {
 		{
 			name:  "var",
 			input: "$_",
-			wantExpr: expression.VarExpression{
+			wantExpr: &expression.VarExpression{
 				Value: "_",
 			},
 			wantErr: nil,
@@ -86,9 +86,9 @@ func generateTestCaseUnary() []testCase {
 		{
 			name:  "not",
 			input: "!true",
-			wantExpr: expression.UnaryExpression{
+			wantExpr: &expression.UnaryExpression{
 				Operator: token.Not,
-				Child: expression.BoolLiteral{
+				Child: &expression.BoolLiteral{
 					Value: true,
 				},
 			},
@@ -102,8 +102,8 @@ func generateTestCaseParenthesis() []testCase {
 		{
 			name:  "parenthesis",
 			input: "(true)",
-			wantExpr: expression.ParenthesisExpression{
-				Child: expression.BoolLiteral{
+			wantExpr: &expression.ParenthesisExpression{
+				Child: &expression.BoolLiteral{
 					Value: true,
 				},
 			},
@@ -112,8 +112,8 @@ func generateTestCaseParenthesis() []testCase {
 		{
 			name:  "parenthesis",
 			input: "(1)",
-			wantExpr: expression.ParenthesisExpression{
-				Child: expression.IntLiteral{
+			wantExpr: &expression.ParenthesisExpression{
+				Child: &expression.IntLiteral{
 					Value: 1,
 				},
 			},
@@ -122,8 +122,8 @@ func generateTestCaseParenthesis() []testCase {
 		{
 			name:  "parenthesis",
 			input: `("a")`,
-			wantExpr: expression.ParenthesisExpression{
-				Child: expression.StringLiteral{
+			wantExpr: &expression.ParenthesisExpression{
+				Child: &expression.StringLiteral{
 					Value: "a",
 				},
 			},
@@ -137,9 +137,9 @@ func generateTestCaseArray() []testCase {
 		{
 			name:  "array",
 			input: "[true]",
-			wantExpr: expression.ArrayExpression{
+			wantExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
-					expression.BoolLiteral{
+					&expression.BoolLiteral{
 						Value: true,
 					},
 				},
@@ -149,12 +149,12 @@ func generateTestCaseArray() []testCase {
 		{
 			name:  "array",
 			input: "[true, false]",
-			wantExpr: expression.ArrayExpression{
+			wantExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
-					expression.BoolLiteral{
+					&expression.BoolLiteral{
 						Value: true,
 					},
-					expression.BoolLiteral{
+					&expression.BoolLiteral{
 						Value: false,
 					},
 				},
@@ -164,15 +164,15 @@ func generateTestCaseArray() []testCase {
 		{
 			name:  "array",
 			input: `[true, 1, "a"]`,
-			wantExpr: expression.ArrayExpression{
+			wantExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
-					expression.BoolLiteral{
+					&expression.BoolLiteral{
 						Value: true,
 					},
-					expression.IntLiteral{
+					&expression.IntLiteral{
 						Value: 1,
 					},
-					expression.StringLiteral{
+					&expression.StringLiteral{
 						Value: "a",
 					},
 				},
@@ -188,12 +188,12 @@ func generateTestCaseBinary() []testCase {
 		{
 			name:  "binary or",
 			input: "true or false",
-			wantExpr: expression.BinaryExpression{
+			wantExpr: &expression.BinaryExpression{
 				Operator: token.Or,
-				Left: expression.BoolLiteral{
+				Left: &expression.BoolLiteral{
 					Value: true,
 				},
-				Right: expression.BoolLiteral{
+				Right: &expression.BoolLiteral{
 					Value: false,
 				},
 			},
@@ -207,18 +207,18 @@ func generateTestCaseComplex() []testCase {
 		{
 			name:  "complex",
 			input: "$x or $y or $z",
-			wantExpr: expression.BinaryExpression{
+			wantExpr: &expression.BinaryExpression{
 				Operator: token.Or,
-				Left: expression.BinaryExpression{
+				Left: &expression.BinaryExpression{
 					Operator: token.Or,
-					Left: expression.VarExpression{
+					Left: &expression.VarExpression{
 						Value: "x",
 					},
-					Right: expression.VarExpression{
+					Right: &expression.VarExpression{
 						Value: "y",
 					},
 				},
-				Right: expression.VarExpression{
+				Right: &expression.VarExpression{
 					Value: "z",
 				},
 			},
@@ -227,17 +227,17 @@ func generateTestCaseComplex() []testCase {
 		{
 			name:  "complex",
 			input: "$x or $y and $z",
-			wantExpr: expression.BinaryExpression{
+			wantExpr: &expression.BinaryExpression{
 				Operator: token.Or,
-				Left: expression.VarExpression{
+				Left: &expression.VarExpression{
 					Value: "x",
 				},
-				Right: expression.BinaryExpression{
+				Right: &expression.BinaryExpression{
 					Operator: token.And,
-					Left: expression.VarExpression{
+					Left: &expression.VarExpression{
 						Value: "y",
 					},
-					Right: expression.VarExpression{
+					Right: &expression.VarExpression{
 						Value: "z",
 					},
 				},
@@ -247,20 +247,20 @@ func generateTestCaseComplex() []testCase {
 		{
 			name:  "complex",
 			input: "($x or $y) and $z",
-			wantExpr: expression.BinaryExpression{
+			wantExpr: &expression.BinaryExpression{
 				Operator: token.And,
-				Left: expression.ParenthesisExpression{
-					Child: expression.BinaryExpression{
+				Left: &expression.ParenthesisExpression{
+					Child: &expression.BinaryExpression{
 						Operator: token.Or,
-						Left: expression.VarExpression{
+						Left: &expression.VarExpression{
 							Value: "x",
 						},
-						Right: expression.VarExpression{
+						Right: &expression.VarExpression{
 							Value: "y",
 						},
 					},
 				},
-				Right: expression.VarExpression{
+				Right: &expression.VarExpression{
 					Value: "z",
 				},
 			},

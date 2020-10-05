@@ -7,6 +7,6 @@ type UnaryExpression struct {
 	Child    Expression
 }
 
-func (expr UnaryExpression) Accept(v Visitor) (interface{}, error) {
+func (expr *UnaryExpression) Accept(v Visitor) (interface{}, error) {
 	return v.VisitUnary(expr)
 }

@@ -7,30 +7,24 @@ import (
 	"github.com/haunt98/evaluator/pkg/scanner"
 )
 
-func (p *Parser) led(tokenText scanner.TokenText, expr expression.Expression) (result expression.Expression, err error) {
+func (p *Parser) led(tokenText scanner.TokenText, expr expression.Expression) (expression.Expression, error) {
 	fn, ok := p.ledFns[tokenText.Token]
 	if !ok {
-		err = fmt.Errorf("not implement left denotation token %s text %s", tokenText.Token, tokenText.Text)
-		return
+		return nil, fmt.Errorf("not implement left denotation token %s text %s", tokenText.Token, tokenText.Text)
 	}
 
-	result, err = fn(tokenText, expr)
-
-	return
+	return fn(tokenText, expr)
 }
 
-func (p *Parser) ledInfix(tokenText scanner.TokenText, expr expression.Expression) (result expression.Expression, err error) {
-	var rightExpr expression.Expression
-	rightExpr, err = p.parseExpression(tokenText.Token.Precedence())
+func (p *Parser) ledInfix(tokenText scanner.TokenText, expr expression.Expression) (expression.Expression, error) {
+	rightExpr, err := p.parseExpression(tokenText.Token.Precedence())
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	result = expression.BinaryExpression{
+	return &expression.BinaryExpression{
 		Operator: tokenText.Token,
 		Left:     expr,
 		Right:    rightExpr,
-	}
-
-	return
+	}, nil
 }

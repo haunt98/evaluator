@@ -19,7 +19,7 @@ func generateTestCaseLiteral() []testCase {
 	return []testCase{
 		{
 			name: "bool",
-			inputExpr: expression.BoolLiteral{
+			inputExpr: &expression.BoolLiteral{
 				Value: true,
 			},
 			inputArgs:  nil,
@@ -28,7 +28,7 @@ func generateTestCaseLiteral() []testCase {
 		},
 		{
 			name: "int",
-			inputExpr: expression.IntLiteral{
+			inputExpr: &expression.IntLiteral{
 				Value: 1,
 			},
 			inputArgs:  nil,
@@ -37,7 +37,7 @@ func generateTestCaseLiteral() []testCase {
 		},
 		{
 			name: "string",
-			inputExpr: expression.StringLiteral{
+			inputExpr: &expression.StringLiteral{
 				Value: "a",
 			},
 			inputArgs:  nil,
@@ -51,7 +51,7 @@ func generateTestCaseVar() []testCase {
 	return []testCase{
 		{
 			name: "var",
-			inputExpr: expression.VarExpression{
+			inputExpr: &expression.VarExpression{
 				Value: "x",
 			},
 			inputArgs: map[string]interface{}{
@@ -67,8 +67,8 @@ func generateTestCaseParenthesis() []testCase {
 	return []testCase{
 		{
 			name: "parenthesis",
-			inputExpr: expression.ParenthesisExpression{
-				Child: expression.BoolLiteral{
+			inputExpr: &expression.ParenthesisExpression{
+				Child: &expression.BoolLiteral{
 					Value: true,
 				},
 			},
@@ -78,8 +78,8 @@ func generateTestCaseParenthesis() []testCase {
 		},
 		{
 			name: "parenthesis",
-			inputExpr: expression.ParenthesisExpression{
-				Child: expression.IntLiteral{
+			inputExpr: &expression.ParenthesisExpression{
+				Child: &expression.IntLiteral{
 					Value: 1,
 				},
 			},
@@ -89,8 +89,8 @@ func generateTestCaseParenthesis() []testCase {
 		},
 		{
 			name: "parenthesis",
-			inputExpr: expression.ParenthesisExpression{
-				Child: expression.StringLiteral{
+			inputExpr: &expression.ParenthesisExpression{
+				Child: &expression.StringLiteral{
 					Value: "a",
 				},
 			},
@@ -100,8 +100,8 @@ func generateTestCaseParenthesis() []testCase {
 		},
 		{
 			name: "parenthesis",
-			inputExpr: expression.ParenthesisExpression{
-				Child: expression.VarExpression{
+			inputExpr: &expression.ParenthesisExpression{
+				Child: &expression.VarExpression{
 					Value: "x",
 				},
 			},
@@ -119,9 +119,9 @@ func generateTestCaseArray() []testCase {
 	return []testCase{
 		{
 			name: "array",
-			inputExpr: expression.ArrayExpression{
+			inputExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
-					expression.BoolLiteral{
+					&expression.BoolLiteral{
 						Value: true,
 					},
 				},
@@ -134,12 +134,12 @@ func generateTestCaseArray() []testCase {
 		},
 		{
 			name: "array",
-			inputExpr: expression.ArrayExpression{
+			inputExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
-					expression.BoolLiteral{
+					&expression.BoolLiteral{
 						Value: true,
 					},
-					expression.BoolLiteral{
+					&expression.BoolLiteral{
 						Value: false,
 					},
 				},

@@ -4,6 +4,6 @@ type ParenthesisExpression struct {
 	Child Expression
 }
 
-func (expr ParenthesisExpression) Accept(v Visitor) (interface{}, error) {
+func (expr *ParenthesisExpression) Accept(v Visitor) (interface{}, error) {
 	return v.VisitParenthesis(expr)
 }

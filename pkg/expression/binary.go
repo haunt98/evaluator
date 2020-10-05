@@ -7,6 +7,6 @@ type BinaryExpression struct {
 	Left, Right Expression
 }
 
-func (expr BinaryExpression) Accept(v Visitor) (interface{}, error) {
+func (expr *BinaryExpression) Accept(v Visitor) (interface{}, error) {
 	return v.VisitBinary(expr)
 }

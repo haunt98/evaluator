@@ -6,7 +6,7 @@ import (
 	"github.com/haunt98/evaluator/pkg/expression"
 )
 
-func (v *visitor) visitOr(expr expression.BinaryExpression) (interface{}, error) {
+func (v *visitor) visitOr(expr *expression.BinaryExpression) (interface{}, error) {
 	rawLeftResult, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (v *visitor) visitOr(expr expression.BinaryExpression) (interface{}, error)
 	return rightResult, nil
 }
 
-func (v *visitor) visitAnd(expr expression.BinaryExpression) (interface{}, error) {
+func (v *visitor) visitAnd(expr *expression.BinaryExpression) (interface{}, error) {
 	rawLeftResult, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (v *visitor) visitAnd(expr expression.BinaryExpression) (interface{}, error
 	return rightResult, nil
 }
 
-func (v *visitor) visitEqual(expr expression.BinaryExpression) (interface{}, error) {
+func (v *visitor) visitEqual(expr *expression.BinaryExpression) (interface{}, error) {
 	leftResult, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func (v *visitor) visitEqual(expr expression.BinaryExpression) (interface{}, err
 	return leftResult == rightResult, nil
 }
 
-func (v *visitor) visitNotEqual(expr expression.BinaryExpression) (interface{}, error) {
+func (v *visitor) visitNotEqual(expr *expression.BinaryExpression) (interface{}, error) {
 	leftResult, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
