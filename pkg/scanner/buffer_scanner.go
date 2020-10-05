@@ -33,10 +33,6 @@ func (bs *BufferScanner) Scan() TokenText {
 // Peek() return next token but it's still there
 func (bs *BufferScanner) Peek() TokenText {
 	tokenText := bs.Scan()
-	bs.undoScan()
-	return tokenText
-}
-
-func (bs *BufferScanner) undoScan() {
 	bs.buf.isCached = true
+	return tokenText
 }
