@@ -56,6 +56,8 @@ func (s *Scanner) Scan() (result TokenText) {
 		result.Token = token.Int
 	case scanner.String:
 		result.Token = token.String
+		// remove ""
+		// "abc" -> abc
 		result.Text = strings.Trim(result.Text, `"`)
 	case '$':
 		result.Token = token.Var
