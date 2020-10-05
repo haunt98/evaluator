@@ -9,7 +9,7 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
-func (p *Parser) nullDenotation(tokenText scanner.TokenText) (result expression.Expression, err error) {
+func (p *Parser) nud(tokenText scanner.TokenText) (result expression.Expression, err error) {
 	fn, ok := p.nudFns[tokenText.Token]
 	if !ok {
 		err = fmt.Errorf("not implement null denotation")

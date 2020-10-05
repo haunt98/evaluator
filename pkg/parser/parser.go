@@ -63,7 +63,7 @@ func (p *Parser) Parse() (expression.Expression, error) {
 
 func (p *Parser) parseExpression(precedence int) (result expression.Expression, err error) {
 	tokenText := p.bs.Scan()
-	result, err = p.nullDenotation(tokenText)
+	result, err = p.nud(tokenText)
 	if err != nil {
 		return
 	}
@@ -74,7 +74,7 @@ func (p *Parser) parseExpression(precedence int) (result expression.Expression, 
 		}
 
 		tokenText = p.bs.Scan()
-		result, err = p.leftDenotation(tokenText, result)
+		result, err = p.led(tokenText, result)
 		if err != nil {
 			return
 		}

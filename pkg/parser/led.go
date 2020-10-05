@@ -7,7 +7,7 @@ import (
 	"github.com/haunt98/evaluator/pkg/scanner"
 )
 
-func (p *Parser) leftDenotation(tokenText scanner.TokenText, expr expression.Expression) (result expression.Expression, err error) {
+func (p *Parser) led(tokenText scanner.TokenText, expr expression.Expression) (result expression.Expression, err error) {
 	fn, ok := p.ledFns[tokenText.Token]
 	if !ok {
 		err = fmt.Errorf("not implement left denotation")
