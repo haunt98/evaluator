@@ -162,6 +162,38 @@ func generateTestCaseOperator() []testCase {
 				Text:  "!",
 			},
 		},
+		{
+			name:  "or",
+			input: "or",
+			want: TokenText{
+				Token: token.Or,
+				Text:  "or",
+			},
+		},
+		{
+			name:  "and",
+			input: "and",
+			want: TokenText{
+				Token: token.And,
+				Text:  "and",
+			},
+		},
+		{
+			name:  "in uppercase",
+			input: "IN",
+			want: TokenText{
+				Token: token.In,
+				Text:  "in",
+			},
+		},
+		{
+			name:  "not in mixed case",
+			input: "NotIn",
+			want: TokenText{
+				Token: token.NotIn,
+				Text:  "notin",
+			},
+		},
 	}
 }
 
