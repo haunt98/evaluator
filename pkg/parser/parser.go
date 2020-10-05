@@ -13,12 +13,16 @@ import (
 )
 
 type Parser struct {
-	bs     *scanner.BufferScanner
-	nudFns map[token.Token]nudFn // nud short for null denotation
-	ledFns map[token.Token]ledFn // led short for left denotation
+	bs *scanner.BufferScanner
+
+	nudFns map[token.Token]nudFn
+	ledFns map[token.Token]ledFn
 }
 
+// nud short for null denotation
 type nudFn func(scanner.TokenText) (expression.Expression, error)
+
+// led short for left denotation
 type ledFn func(scanner.TokenText, expression.Expression) (expression.Expression, error)
 
 func NewParser(input string) *Parser {
