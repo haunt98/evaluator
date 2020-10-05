@@ -10,7 +10,7 @@ import (
 func (p *Parser) led(tokenText scanner.TokenText, expr expression.Expression) (result expression.Expression, err error) {
 	fn, ok := p.ledFns[tokenText.Token]
 	if !ok {
-		err = fmt.Errorf("not implement left denotation")
+		err = fmt.Errorf("not implement left denotation token %s text %s", tokenText.Token, tokenText.Text)
 		return
 	}
 

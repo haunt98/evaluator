@@ -12,7 +12,7 @@ import (
 func (p *Parser) nud(tokenText scanner.TokenText) (result expression.Expression, err error) {
 	fn, ok := p.nudFns[tokenText.Token]
 	if !ok {
-		err = fmt.Errorf("not implement null denotation")
+		err = fmt.Errorf("not implement null denotation token %s text %s", tokenText.Token, tokenText.Text)
 		return
 	}
 
@@ -25,6 +25,7 @@ func (p *Parser) nudBool(tokenText scanner.TokenText) (result expression.Express
 	var value bool
 	value, err = strconv.ParseBool(tokenText.Text)
 	if err != nil {
+		err = fmt.Errorf("failed to parse bool token %s text %s", tokenText.Token, tokenText.Text)
 		return
 	}
 
@@ -39,6 +40,7 @@ func (p *Parser) nudInt(tokenText scanner.TokenText) (result expression.Expressi
 	var value int64
 	value, err = strconv.ParseInt(tokenText.Text, 10, 64)
 	if err != nil {
+		err = fmt.Errorf("failed to parse int token %s text %s", tokenText.Token, tokenText.Text)
 		return
 	}
 
@@ -126,7 +128,7 @@ func (p *Parser) nudSquareBracket(_ scanner.TokenText) (result expression.Expres
 	}
 
 	if expect := p.bs.Scan(); expect.Token != token.CloseSquareBracket {
-		err = fmt.Errorf("expect ]")
+		err = fmt.Errorf("expect ] got token %s text %s", expect.Token, expect.Text)
 		return
 	}
 

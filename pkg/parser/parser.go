@@ -3,6 +3,7 @@
 package parser
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/haunt98/evaluator/pkg/expression"
@@ -65,6 +66,7 @@ func (p *Parser) parseExpression(precedence int) (result expression.Expression, 
 	tokenText := p.bs.Scan()
 	result, err = p.nud(tokenText)
 	if err != nil {
+		err = fmt.Errorf("failed to null denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
 		return
 	}
 
@@ -76,6 +78,7 @@ func (p *Parser) parseExpression(precedence int) (result expression.Expression, 
 		tokenText = p.bs.Scan()
 		result, err = p.led(tokenText, result)
 		if err != nil {
+			err = fmt.Errorf("failed to left denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
 			return
 		}
 	}
