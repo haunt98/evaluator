@@ -22,5 +22,5 @@ func (expr *ArrayExpression) String() string {
 }
 
 func (expr *ArrayExpression) Accept(v Visitor) (Expression, error) {
-	return v.VisitArray(expr)
+	return v.VisitLiteral(expr)
 }

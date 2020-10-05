@@ -52,10 +52,6 @@ func (v visitor) VisitParenthesis(expr *expression.ParenthesisExpression) (expre
 	return v.Visit(expr.Child)
 }
 
-func (v visitor) VisitArray(expr *expression.ArrayExpression) (expression.Expression, error) {
-	return expr, nil
-}
-
 func (v visitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Not:
