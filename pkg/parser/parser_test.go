@@ -100,7 +100,7 @@ func generateTestCaseUnary() []testCase {
 func generateTestCaseParenthesis() []testCase {
 	return []testCase{
 		{
-			name:  "parenthesis",
+			name:  "parenthesis single bool",
 			input: "(true)",
 			wantExpr: &expression.ParenthesisExpression{
 				Child: &expression.BoolLiteral{
@@ -110,7 +110,7 @@ func generateTestCaseParenthesis() []testCase {
 			wantErr: nil,
 		},
 		{
-			name:  "parenthesis",
+			name:  "parenthesis single int",
 			input: "(1)",
 			wantExpr: &expression.ParenthesisExpression{
 				Child: &expression.IntLiteral{
@@ -120,7 +120,7 @@ func generateTestCaseParenthesis() []testCase {
 			wantErr: nil,
 		},
 		{
-			name:  "parenthesis",
+			name:  "parenthesis single string",
 			input: `("a")`,
 			wantExpr: &expression.ParenthesisExpression{
 				Child: &expression.StringLiteral{
@@ -135,7 +135,15 @@ func generateTestCaseParenthesis() []testCase {
 func generateTestCaseArray() []testCase {
 	return []testCase{
 		{
-			name:  "array",
+			name:  "array empty",
+			input: "[]",
+			wantExpr: &expression.ArrayExpression{
+				Children: []expression.Expression{},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "array single item",
 			input: "[true]",
 			wantExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
@@ -147,7 +155,7 @@ func generateTestCaseArray() []testCase {
 			wantErr: nil,
 		},
 		{
-			name:  "array",
+			name:  "array multi items",
 			input: "[true, false]",
 			wantExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
@@ -162,7 +170,7 @@ func generateTestCaseArray() []testCase {
 			wantErr: nil,
 		},
 		{
-			name:  "array",
+			name:  "array multi complex items",
 			input: `[true, 1, "a"]`,
 			wantExpr: &expression.ArrayExpression{
 				Children: []expression.Expression{
@@ -182,11 +190,10 @@ func generateTestCaseArray() []testCase {
 	}
 }
 
-// TODO: all binary
 func generateTestCaseBinary() []testCase {
 	return []testCase{
 		{
-			name:  "binary or",
+			name:  "or",
 			input: "true or false",
 			wantExpr: &expression.BinaryExpression{
 				Operator: token.Or,
@@ -195,6 +202,146 @@ func generateTestCaseBinary() []testCase {
 				},
 				Right: &expression.BoolLiteral{
 					Value: false,
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "and",
+			input: "false and true",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.And,
+				Left: &expression.BoolLiteral{
+					Value: false,
+				},
+				Right: &expression.BoolLiteral{
+					Value: true,
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "equal",
+			input: "1 == 2",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.Equal,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.IntLiteral{
+					Value: int64(2),
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "not equal",
+			input: "1 != 2",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.NotEqual,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.IntLiteral{
+					Value: int64(2),
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "less",
+			input: "1 < 2",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.Less,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.IntLiteral{
+					Value: int64(2),
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "less or equal",
+			input: "1 <= 2",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.LessOrEqual,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.IntLiteral{
+					Value: int64(2),
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "greater",
+			input: "1 > 2",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.Greater,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.IntLiteral{
+					Value: int64(2),
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "greater or equal",
+			input: "1 >= 2",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.GreaterOrEqual,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.IntLiteral{
+					Value: int64(2),
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "in",
+			input: "1 in [1, 2]",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.In,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.ArrayExpression{
+					Children: []expression.Expression{
+						&expression.IntLiteral{
+							Value: int64(1),
+						},
+						&expression.IntLiteral{
+							Value: int64(2),
+						},
+					},
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name:  "not in",
+			input: "1 notin [1, 2]",
+			wantExpr: &expression.BinaryExpression{
+				Operator: token.NotIn,
+				Left: &expression.IntLiteral{
+					Value: int64(1),
+				},
+				Right: &expression.ArrayExpression{
+					Children: []expression.Expression{
+						&expression.IntLiteral{
+							Value: int64(1),
+						},
+						&expression.IntLiteral{
+							Value: int64(2),
+						},
+					},
 				},
 			},
 			wantErr: nil,
