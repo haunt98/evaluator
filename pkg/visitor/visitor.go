@@ -21,16 +21,8 @@ func (v visitor) Visit(expr expression.Expression) (expression.Expression, error
 	return expr.Accept(v)
 }
 
-func (v visitor) VisitBool(lit *expression.BoolLiteral) (expression.Expression, error) {
-	return lit, nil
-}
-
-func (v visitor) VisitInt(lit *expression.IntLiteral) (expression.Expression, error) {
-	return lit, nil
-}
-
-func (v visitor) VisitString(lit *expression.StringLiteral) (expression.Expression, error) {
-	return lit, nil
+func (v visitor) VisitLiteral(expr expression.Expression) (expression.Expression, error) {
+	return expr, nil
 }
 
 func (v visitor) VisitVar(expr *expression.VarExpression) (expression.Expression, error) {

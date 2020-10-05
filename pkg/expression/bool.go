@@ -17,5 +17,5 @@ func (lit *BoolLiteral) String() string {
 }
 
 func (lit *BoolLiteral) Accept(v Visitor) (Expression, error) {
-	return v.VisitBool(lit)
+	return v.VisitLiteral(lit)
 }

@@ -17,5 +17,5 @@ func (lit *IntLiteral) String() string {
 }
 
 func (lit *IntLiteral) Accept(v Visitor) (Expression, error) {
-	return v.VisitInt(lit)
+	return v.VisitLiteral(lit)
 }

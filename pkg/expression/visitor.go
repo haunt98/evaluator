@@ -3,10 +3,7 @@ package expression
 type Visitor interface {
 	Visit(expr Expression) (Expression, error)
 
-	VisitBool(lit *BoolLiteral) (Expression, error)
-	VisitInt(lit *IntLiteral) (Expression, error)
-	VisitString(lit *StringLiteral) (Expression, error)
-
+	VisitLiteral(expr Expression) (Expression, error)
 	VisitVar(expr *VarExpression) (Expression, error)
 	VisitParenthesis(expr *ParenthesisExpression) (Expression, error)
 	VisitArray(expr *ArrayExpression) (Expression, error)
