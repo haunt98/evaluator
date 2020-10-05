@@ -63,57 +63,6 @@ func generateTestCaseVar() []testCase {
 	}
 }
 
-func generateTestCaseParenthesis() []testCase {
-	return []testCase{
-		{
-			name: "parenthesis",
-			inputExpr: &expression.ParenthesisExpression{
-				Child: &expression.BoolLiteral{
-					Value: true,
-				},
-			},
-			inputArgs:  nil,
-			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
-		},
-		{
-			name: "parenthesis",
-			inputExpr: &expression.ParenthesisExpression{
-				Child: &expression.IntLiteral{
-					Value: 1,
-				},
-			},
-			inputArgs:  nil,
-			wantResult: expression.NewIntLiteral(1),
-			wantErr:    nil,
-		},
-		{
-			name: "parenthesis",
-			inputExpr: &expression.ParenthesisExpression{
-				Child: &expression.StringLiteral{
-					Value: "a",
-				},
-			},
-			inputArgs:  nil,
-			wantResult: expression.NewStringLiteral("a"),
-			wantErr:    nil,
-		},
-		{
-			name: "parenthesis",
-			inputExpr: &expression.ParenthesisExpression{
-				Child: &expression.VarExpression{
-					Value: "x",
-				},
-			},
-			inputArgs: map[string]interface{}{
-				"x": "xxx",
-			},
-			wantResult: expression.NewStringLiteral("xxx"),
-			wantErr:    nil,
-		},
-	}
-}
-
 // TODO: more array, include var
 func generateTestCaseArray() []testCase {
 	return []testCase{
@@ -155,7 +104,6 @@ func TestVisitor_Visit(t *testing.T) {
 	var tests []testCase
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)
-	tests = append(tests, generateTestCaseParenthesis()...)
 	tests = append(tests, generateTestCaseArray()...)
 
 	for _, tc := range tests {

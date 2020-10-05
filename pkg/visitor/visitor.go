@@ -48,10 +48,6 @@ func (v visitor) VisitVar(expr *expression.VarExpression) (expression.Expression
 	}
 }
 
-func (v visitor) VisitParenthesis(expr *expression.ParenthesisExpression) (expression.Expression, error) {
-	return v.Visit(expr.Child)
-}
-
 func (v visitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Not:
