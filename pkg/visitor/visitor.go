@@ -53,7 +53,7 @@ func (v visitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expres
 	case token.Not:
 		return v.visitNot(expr)
 	default:
-		return nil, fmt.Errorf("not implement visit unary")
+		return nil, fmt.Errorf("not implement visit unary operator %s", expr.Operator)
 	}
 }
 
@@ -68,6 +68,6 @@ func (v visitor) VisitBinary(expr *expression.BinaryExpression) (expression.Expr
 	case token.NotEqual:
 		return v.visitNotEqual(expr)
 	default:
-		return nil, fmt.Errorf("not implement visit binary")
+		return nil, fmt.Errorf("not implement visit binary operator %s", expr.Operator)
 	}
 }
