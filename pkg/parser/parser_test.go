@@ -306,7 +306,7 @@ func generateTestCaseComplex() []testCase {
 	}
 }
 
-func TestParser_Parse(t *testing.T) {
+func TestParserParse(t *testing.T) {
 	var tests []testCase
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)

@@ -18,31 +18,38 @@ type testCase struct {
 func generateTestCaseLiteral() []testCase {
 	return []testCase{
 		{
-			name: "bool",
-			inputExpr: &expression.BoolLiteral{
-				Value: true,
-			},
+			name:       "bool",
+			inputExpr:  expression.NewBoolLiteral(true),
 			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
 			wantErr:    nil,
 		},
 		{
-			name: "int",
-			inputExpr: &expression.IntLiteral{
-				Value: 1,
-			},
+			name:       "int",
+			inputExpr:  expression.NewIntLiteral(1),
 			inputArgs:  nil,
 			wantResult: expression.NewIntLiteral(1),
 			wantErr:    nil,
 		},
 		{
-			name: "string",
-			inputExpr: &expression.StringLiteral{
-				Value: "a",
-			},
+			name:       "string",
+			inputExpr:  expression.NewStringLiteral("a"),
 			inputArgs:  nil,
 			wantResult: expression.NewStringLiteral("a"),
 			wantErr:    nil,
+		},
+		{
+			name: "array",
+			inputExpr: expression.NewArrayExpression(
+				expression.NewBoolLiteral(true),
+				expression.NewBoolLiteral(false),
+			),
+			inputArgs: nil,
+			wantResult: expression.NewArrayExpression(
+				expression.NewBoolLiteral(true),
+				expression.NewBoolLiteral(false),
+			),
+			wantErr: nil,
 		},
 	}
 }
@@ -50,10 +57,35 @@ func generateTestCaseLiteral() []testCase {
 func generateTestCaseVar() []testCase {
 	return []testCase{
 		{
-			name: "var",
-			inputExpr: &expression.VarExpression{
-				Value: "x",
+			name:      "var bool",
+			inputExpr: expression.NewVarExpression("x"),
+			inputArgs: map[string]interface{}{
+				"x": true,
 			},
+			wantResult: expression.NewBoolLiteral(true),
+			wantErr:    nil,
+		},
+		{
+			name:      "var int",
+			inputExpr: expression.NewVarExpression("x"),
+			inputArgs: map[string]interface{}{
+				"x": 1,
+			},
+			wantResult: expression.NewIntLiteral(1),
+			wantErr:    nil,
+		},
+		{
+			name:      "var int64",
+			inputExpr: expression.NewVarExpression("x"),
+			inputArgs: map[string]interface{}{
+				"x": int64(1),
+			},
+			wantResult: expression.NewIntLiteral(1),
+			wantErr:    nil,
+		},
+		{
+			name:      "var string",
+			inputExpr: expression.NewVarExpression("x"),
 			inputArgs: map[string]interface{}{
 				"x": "xxx",
 			},
@@ -63,48 +95,12 @@ func generateTestCaseVar() []testCase {
 	}
 }
 
-// TODO: more array, include var
-func generateTestCaseArray() []testCase {
-	return []testCase{
-		{
-			name: "array",
-			inputExpr: &expression.ArrayExpression{
-				Children: []expression.Expression{
-					&expression.BoolLiteral{
-						Value: true,
-					},
-				},
-			},
-			inputArgs:  nil,
-			wantResult: expression.NewArrayExpression(expression.NewBoolLiteral(true)),
-			wantErr:    nil,
-		},
-		{
-			name: "array",
-			inputExpr: &expression.ArrayExpression{
-				Children: []expression.Expression{
-					&expression.BoolLiteral{
-						Value: true,
-					},
-					&expression.BoolLiteral{
-						Value: false,
-					},
-				},
-			},
-			inputArgs:  nil,
-			wantResult: expression.NewArrayExpression(expression.NewBoolLiteral(true), expression.NewBoolLiteral(false)),
-			wantErr:    nil,
-		},
-	}
-}
-
 // TODO: test visit binary
 
-func TestVisitor_Visit(t *testing.T) {
+func TestEvaluateVisitorVisit(t *testing.T) {
 	var tests []testCase
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)
-	tests = append(tests, generateTestCaseArray()...)
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {

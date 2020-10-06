@@ -287,7 +287,7 @@ func generateTestCaseIllegal() []scannerTestCase {
 	}
 }
 
-func TestScanner_Scan(t *testing.T) {
+func TestScannerScan(t *testing.T) {
 	var tests []scannerTestCase
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)
