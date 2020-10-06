@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/haunt98/evaluator/pkg/expression"
+	"github.com/haunt98/evaluator/pkg/token"
 )
 
 type testCase struct {
@@ -95,12 +96,61 @@ func generateTestCaseVar() []testCase {
 	}
 }
 
-// TODO: test visit binary
+// TODO: add more binary unittest
+func generateTestCaseBinary() []testCase {
+	return []testCase{
+		{
+			name: "or",
+			inputExpr: expression.NewBinaryExpression(token.Or,
+				expression.NewBoolLiteral(true),
+				expression.NewBoolLiteral(false),
+			),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(true),
+			wantErr:    nil,
+		},
+		{
+			name: "or with args",
+			inputExpr: expression.NewBinaryExpression(token.Or,
+				expression.NewVarExpression("x"),
+				expression.NewBoolLiteral(false),
+			),
+			inputArgs: map[string]interface{}{
+				"x": false,
+			},
+			wantResult: expression.NewBoolLiteral(false),
+			wantErr:    nil,
+		},
+		{
+			name: "and",
+			inputExpr: expression.NewBinaryExpression(token.And,
+				expression.NewBoolLiteral(true),
+				expression.NewBoolLiteral(false),
+			),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(false),
+			wantErr:    nil,
+		},
+		{
+			name: "and with args",
+			inputExpr: expression.NewBinaryExpression(token.And,
+				expression.NewVarExpression("x"),
+				expression.NewBoolLiteral(true),
+			),
+			inputArgs: map[string]interface{}{
+				"x": true,
+			},
+			wantResult: expression.NewBoolLiteral(false),
+			wantErr:    nil,
+		},
+	}
+}
 
 func TestEvaluateVisitorVisit(t *testing.T) {
 	var tests []testCase
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)
+	tests = append(tests, generateTestCaseBinary()...)
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {

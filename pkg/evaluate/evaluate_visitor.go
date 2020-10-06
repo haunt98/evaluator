@@ -55,6 +55,7 @@ func (v *evaluateVisitor) VisitUnary(expr *expression.UnaryExpression) (expressi
 	}
 }
 
+// TODO: add more binary handle
 func (v *evaluateVisitor) VisitBinary(expr *expression.BinaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Or:
