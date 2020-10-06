@@ -285,6 +285,24 @@ func generateTestCaseComplex() []testCase {
 			),
 			wantErr: nil,
 		},
+		{
+			name:  "complex",
+			input: "(true and $x) or (($x or false) and true)",
+			wantExpr: expression.NewBinaryExpression(token.Or,
+				expression.NewBinaryExpression(token.And,
+					expression.NewBoolLiteral(true),
+					expression.NewVarExpression("x"),
+				),
+				expression.NewBinaryExpression(token.And,
+					expression.NewBinaryExpression(token.Or,
+						expression.NewVarExpression("x"),
+						expression.NewBoolLiteral(false),
+					),
+					expression.NewBoolLiteral(true),
+				),
+			),
+			wantErr: nil,
+		},
 	}
 }
 
