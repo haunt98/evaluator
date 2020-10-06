@@ -92,7 +92,5 @@ func (v *evaluateVisitor) visitNotEqual(expr *expression.BinaryExpression) (expr
 		return nil, fmt.Errorf("export bool literal got %s", equalExpr)
 	}
 
-	return &expression.BoolLiteral{
-		Value: !equalLit.Value,
-	}, nil
+	return expression.NewBoolLiteral(!equalLit.Value), nil
 }

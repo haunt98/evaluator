@@ -17,7 +17,5 @@ func (v *evaluateVisitor) visitNot(expr *expression.UnaryExpression) (expression
 		return nil, fmt.Errorf("expect bool")
 	}
 
-	return &expression.BoolLiteral{
-		Value: !childLit.Value,
-	}, nil
+	return expression.NewBoolLiteral(!childLit.Value), nil
 }
