@@ -33,13 +33,11 @@ func (v evaluateVisitor) VisitVar(expr *expression.VarExpression) (expression.Ex
 
 	switch v := value.(type) {
 	case bool:
-		return &expression.BoolLiteral{
-			Value: v,
-		}, nil
+		return expression.NewBoolLiteral(v), nil
 	case int:
-		return &expression.IntLiteral{
-			Value: int64(v),
-		}, nil
+		return expression.NewIntLiteral(int64(v)), nil
+	case int64:
+		return expression.NewIntLiteral(v), nil
 	case string:
 		return expression.NewStringLiteral(v), nil
 	// TODO: add more types
