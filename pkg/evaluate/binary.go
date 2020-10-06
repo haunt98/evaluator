@@ -75,10 +75,32 @@ func (v *evaluateVisitor) visitEqual(expr *expression.BinaryExpression) (express
 		return nil, err
 	}
 
-	// TODO: this is just wrong, need rewrite
-	return &expression.BoolLiteral{
-		Value: left == right,
-	}, nil
+	// TODO: handle more types
+	switch l := left.(type) {
+	case *expression.BoolLiteral:
+		switch r := right.(type) {
+		case *expression.BoolLiteral:
+			return expression.NewBoolLiteral(l.Value == r.Value), nil
+		default:
+			return nil, fmt.Errorf("expect bool literal got %T", r)
+		}
+	case *expression.IntLiteral:
+		switch r := right.(type) {
+		case *expression.IntLiteral:
+			return expression.NewBoolLiteral(l.Value == r.Value), nil
+		default:
+			return nil, fmt.Errorf("expect int literal got %T", r)
+		}
+	case *expression.StringLiteral:
+		switch r := right.(type) {
+		case *expression.StringLiteral:
+			return expression.NewBoolLiteral(l.Value == r.Value), nil
+		default:
+			return nil, fmt.Errorf("expect string literal got %T", r)
+		}
+	default:
+		return nil, fmt.Errorf("not implement visit equal %T", l)
+	}
 }
 
 func (v *evaluateVisitor) visitNotEqual(expr *expression.BinaryExpression) (expression.Expression, error) {

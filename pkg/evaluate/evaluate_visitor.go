@@ -31,6 +31,7 @@ func (v *evaluateVisitor) VisitVar(expr *expression.VarExpression) (expression.E
 		return nil, fmt.Errorf("args missing %s", expr.Value)
 	}
 
+	// TODO: add more types
 	switch v := value.(type) {
 	case bool:
 		return expression.NewBoolLiteral(v), nil
@@ -40,7 +41,6 @@ func (v *evaluateVisitor) VisitVar(expr *expression.VarExpression) (expression.E
 		return expression.NewIntLiteral(v), nil
 	case string:
 		return expression.NewStringLiteral(v), nil
-	// TODO: add more types
 	default:
 		return nil, fmt.Errorf("not implement var type %T", v)
 	}
