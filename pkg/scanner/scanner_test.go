@@ -247,6 +247,30 @@ func generateTestCaseOthers() []scannerTestCase {
 				Text:  "",
 			},
 		},
+		{
+			name:  "ident lowercase",
+			input: "water",
+			want: TokenText{
+				Token: token.Ident,
+				Text:  "water",
+			},
+		},
+		{
+			name:  "ident uppercase",
+			input: "WATER",
+			want: TokenText{
+				Token: token.Ident,
+				Text:  "WATER",
+			},
+		},
+		{
+			name:  "ident mixed case",
+			input: "Water",
+			want: TokenText{
+				Token: token.Ident,
+				Text:  "Water",
+			},
+		},
 	}
 }
 
