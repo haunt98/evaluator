@@ -17,15 +17,15 @@ func NewEvaluateVisitor(args map[string]interface{}) expression.Visitor {
 	}
 }
 
-func (v evaluateVisitor) Visit(expr expression.Expression) (expression.Expression, error) {
+func (v *evaluateVisitor) Visit(expr expression.Expression) (expression.Expression, error) {
 	return expr.Accept(v)
 }
 
-func (v evaluateVisitor) VisitLiteral(expr expression.Expression) (expression.Expression, error) {
+func (v *evaluateVisitor) VisitLiteral(expr expression.Expression) (expression.Expression, error) {
 	return expr, nil
 }
 
-func (v evaluateVisitor) VisitVar(expr *expression.VarExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) VisitVar(expr *expression.VarExpression) (expression.Expression, error) {
 	value, ok := v.args[expr.Value]
 	if !ok {
 		return nil, fmt.Errorf("args missing %s", expr.Value)
@@ -46,7 +46,7 @@ func (v evaluateVisitor) VisitVar(expr *expression.VarExpression) (expression.Ex
 	}
 }
 
-func (v evaluateVisitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Not:
 		return v.visitNot(expr)
@@ -55,7 +55,7 @@ func (v evaluateVisitor) VisitUnary(expr *expression.UnaryExpression) (expressio
 	}
 }
 
-func (v evaluateVisitor) VisitBinary(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) VisitBinary(expr *expression.BinaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Or:
 		return v.visitOr(expr)
