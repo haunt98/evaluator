@@ -8,7 +8,7 @@ type VarExpression struct {
 	Value string
 }
 
-func NewVarExpression(value string) *VarExpression {
+func NewVarExpression(value string) Expression {
 	return &VarExpression{
 		Value: value,
 	}

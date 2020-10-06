@@ -2,7 +2,6 @@ package expression
 
 type Visitor interface {
 	Visit(expr Expression) (Expression, error)
-
 	VisitLiteral(expr Expression) (Expression, error)
 	VisitVar(expr *VarExpression) (Expression, error)
 	VisitUnary(expr *UnaryExpression) (Expression, error)
