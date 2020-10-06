@@ -26,23 +26,29 @@ func (s *Scanner) Scan() (result TokenText) {
 	ch := s.textScanner.Scan()
 	text := s.textScanner.TokenText()
 
-	result.Text = strings.ToLower(text)
+	result.Text = text
 
 	switch ch {
 	case scanner.EOF:
 		result.Token = token.EOF
 	case scanner.Ident:
-		switch result.Text {
+		lowerText := strings.ToLower(result.Text)
+		switch lowerText {
 		case "true", "false":
 			result.Token = token.Bool
+			result.Text = lowerText
 		case "or":
 			result.Token = token.Or
+			result.Text = lowerText
 		case "and":
 			result.Token = token.And
+			result.Text = lowerText
 		case "in":
 			result.Token = token.In
+			result.Text = lowerText
 		case "notin":
 			result.Token = token.NotIn
+			result.Text = lowerText
 		default:
 			result.Token = token.Ident
 		}
