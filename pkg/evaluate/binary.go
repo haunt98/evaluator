@@ -1,4 +1,4 @@
-package visitor
+package evaluate
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/haunt98/evaluator/pkg/expression"
 )
 
-func (v *visitor) visitOr(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) visitOr(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (v *visitor) visitOr(expr *expression.BinaryExpression) (expression.Express
 	return rightLit, nil
 }
 
-func (v *visitor) visitAnd(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) visitAnd(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (v *visitor) visitAnd(expr *expression.BinaryExpression) (expression.Expres
 	return rightLit, nil
 }
 
-func (v *visitor) visitEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) visitEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -81,7 +81,7 @@ func (v *visitor) visitEqual(expr *expression.BinaryExpression) (expression.Expr
 	}, nil
 }
 
-func (v *visitor) visitNotEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) visitNotEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
 	equalExpr, err := v.visitEqual(expr)
 	if err != nil {
 		return nil, err

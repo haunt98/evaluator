@@ -1,4 +1,4 @@
-package visitor
+package evaluate
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/haunt98/evaluator/pkg/expression"
 )
 
-func (v *visitor) visitNot(expr *expression.UnaryExpression) (expression.Expression, error) {
+func (v *evaluateVisitor) visitNot(expr *expression.UnaryExpression) (expression.Expression, error) {
 	child, err := v.Visit(expr.Child)
 	if err != nil {
 		return nil, err

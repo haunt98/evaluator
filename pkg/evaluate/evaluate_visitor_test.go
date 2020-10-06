@@ -1,4 +1,4 @@
-package visitor
+package evaluate
 
 import (
 	"testing"
@@ -108,9 +108,7 @@ func TestVisitor_Visit(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			v := visitor{
-				args: tc.inputArgs,
-			}
+			v := NewEvaluateVisitor(tc.inputArgs)
 
 			gotResult, gotErr := v.Visit(tc.inputExpr)
 			if diff := cmp.Diff(tc.wantErr, gotErr); diff != "" {

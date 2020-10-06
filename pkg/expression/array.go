@@ -1,6 +1,8 @@
 package expression
 
-import "strings"
+import (
+	"strings"
+)
 
 type ArrayExpression struct {
 	Children []Expression

@@ -1,6 +1,8 @@
 package expression
 
-import "strconv"
+import (
+	"strconv"
+)
 
 type BoolLiteral struct {
 	Value bool

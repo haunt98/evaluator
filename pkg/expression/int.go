@@ -1,6 +1,8 @@
 package expression
 
-import "strconv"
+import (
+	"strconv"
+)
 
 type IntLiteral struct {
 	Value int64

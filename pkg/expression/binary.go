@@ -1,6 +1,8 @@
 package expression
 
-import "github.com/haunt98/evaluator/pkg/token"
+import (
+	"github.com/haunt98/evaluator/pkg/token"
+)
 
 type BinaryExpression struct {
 	Operator    token.Token

@@ -1,4 +1,4 @@
-package visitor
+package evaluate
 
 import (
 	"fmt"
@@ -7,25 +7,25 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
-type visitor struct {
+type evaluateVisitor struct {
 	args map[string]interface{}
 }
 
-func NewVisitor(args map[string]interface{}) expression.Visitor {
-	return &visitor{
+func NewEvaluateVisitor(args map[string]interface{}) expression.Visitor {
+	return &evaluateVisitor{
 		args: args,
 	}
 }
 
-func (v visitor) Visit(expr expression.Expression) (expression.Expression, error) {
+func (v evaluateVisitor) Visit(expr expression.Expression) (expression.Expression, error) {
 	return expr.Accept(v)
 }
 
-func (v visitor) VisitLiteral(expr expression.Expression) (expression.Expression, error) {
+func (v evaluateVisitor) VisitLiteral(expr expression.Expression) (expression.Expression, error) {
 	return expr, nil
 }
 
-func (v visitor) VisitVar(expr *expression.VarExpression) (expression.Expression, error) {
+func (v evaluateVisitor) VisitVar(expr *expression.VarExpression) (expression.Expression, error) {
 	value, ok := v.args[expr.Value]
 	if !ok {
 		return nil, fmt.Errorf("args missing %s", expr.Value)
@@ -48,7 +48,7 @@ func (v visitor) VisitVar(expr *expression.VarExpression) (expression.Expression
 	}
 }
 
-func (v visitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expression, error) {
+func (v evaluateVisitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Not:
 		return v.visitNot(expr)
@@ -57,7 +57,7 @@ func (v visitor) VisitUnary(expr *expression.UnaryExpression) (expression.Expres
 	}
 }
 
-func (v visitor) VisitBinary(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v evaluateVisitor) VisitBinary(expr *expression.BinaryExpression) (expression.Expression, error) {
 	switch expr.Operator {
 	case token.Or:
 		return v.visitOr(expr)
