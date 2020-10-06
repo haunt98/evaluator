@@ -22,11 +22,6 @@ func NewScanner(r io.Reader) *Scanner {
 	}
 }
 
-type TokenText struct {
-	Token token.Token
-	Text  string
-}
-
 func (s *Scanner) Scan() (result TokenText) {
 	ch := s.textScanner.Scan()
 	text := s.textScanner.TokenText()
