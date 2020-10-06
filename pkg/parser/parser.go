@@ -66,7 +66,7 @@ func (p *Parser) parseWithPrecedence(precedence int) (expression.Expression, err
 	tokenText := p.bs.Scan()
 	result, err := p.nud(tokenText)
 	if err != nil {
-		return nil, fmt.Errorf("failed to null denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
+		return nil, fmt.Errorf("failed to null denotation %s: %w", tokenText, err)
 	}
 
 	for {
@@ -77,7 +77,7 @@ func (p *Parser) parseWithPrecedence(precedence int) (expression.Expression, err
 		tokenText = p.bs.Scan()
 		result, err = p.led(tokenText, result)
 		if err != nil {
-			return nil, fmt.Errorf("failed to left denotation token %s text %s: %w", tokenText.Token, tokenText.Text, err)
+			return nil, fmt.Errorf("failed to left denotation %s: %w", tokenText, err)
 		}
 	}
 

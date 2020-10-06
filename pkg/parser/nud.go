@@ -16,7 +16,7 @@ const (
 func (p *Parser) nud(tokenText scanner.TokenText) (expression.Expression, error) {
 	fn, ok := p.nudFns[tokenText.Token]
 	if !ok {
-		return nil, fmt.Errorf("not implement null denotation token %s text %s", tokenText.Token, tokenText.Text)
+		return nil, fmt.Errorf("not implement null denotation %s", tokenText)
 	}
 
 	return fn(tokenText)
@@ -25,7 +25,7 @@ func (p *Parser) nud(tokenText scanner.TokenText) (expression.Expression, error)
 func (p *Parser) nudBool(tokenText scanner.TokenText) (expression.Expression, error) {
 	value, err := strconv.ParseBool(tokenText.Text)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse bool token %s text %s", tokenText.Token, tokenText.Text)
+		return nil, fmt.Errorf("failed to parse bool %s: %w", tokenText, err)
 	}
 
 	return expression.NewBoolLiteral(value), nil
@@ -34,7 +34,7 @@ func (p *Parser) nudBool(tokenText scanner.TokenText) (expression.Expression, er
 func (p *Parser) nudInt(tokenText scanner.TokenText) (expression.Expression, error) {
 	value, err := strconv.ParseInt(tokenText.Text, 10, 64)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse int token %s text %s", tokenText.Token, tokenText.Text)
+		return nil, fmt.Errorf("failed to parse int token %s: %w", tokenText, err)
 	}
 
 	return expression.NewIntLiteral(value), nil
@@ -64,7 +64,7 @@ func (p *Parser) nudOpenParenthesis(_ scanner.TokenText) (expression.Expression,
 	}
 
 	if expect := p.bs.Scan(); expect.Token != token.CloseParenthesis {
-		return nil, fmt.Errorf("expect ) got token %s text %s", expect.Token, expect.Text)
+		return nil, fmt.Errorf("expect %s got %s", token.CloseParenthesis, expect)
 	}
 
 	return expr, nil
@@ -95,7 +95,7 @@ func (p *Parser) nudSquareBracket(_ scanner.TokenText) (expression.Expression, e
 	}
 
 	if expect := p.bs.Scan(); expect.Token != token.CloseSquareBracket {
-		return nil, fmt.Errorf("expect ] got token %s text %s", expect.Token, expect.Text)
+		return nil, fmt.Errorf("expect %s got %s", token.CloseSquareBracket, expect)
 	}
 
 	return expression.NewArrayExpression(children...), nil
