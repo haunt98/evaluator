@@ -133,7 +133,7 @@ func (v *evaluateVisitor) visitLess(expr *expression.BinaryExpression) (expressi
 		return nil, err
 	}
 
-	rightLit, ok := left.(*expression.IntLiteral)
+	rightLit, ok := right.(*expression.IntLiteral)
 	if !ok {
 		return nil, fmt.Errorf("expect int literal got %s", right)
 	}
@@ -157,7 +157,7 @@ func (v *evaluateVisitor) visitLessOrEqual(expr *expression.BinaryExpression) (e
 		return nil, err
 	}
 
-	rightLit, ok := left.(*expression.IntLiteral)
+	rightLit, ok := right.(*expression.IntLiteral)
 	if !ok {
 		return nil, fmt.Errorf("expect int literal got %s", right)
 	}
@@ -181,7 +181,7 @@ func (v *evaluateVisitor) visitGreater(expr *expression.BinaryExpression) (expre
 		return nil, err
 	}
 
-	rightLit, ok := left.(*expression.IntLiteral)
+	rightLit, ok := right.(*expression.IntLiteral)
 	if !ok {
 		return nil, fmt.Errorf("expect int literal got %s", right)
 	}
@@ -205,7 +205,7 @@ func (v *evaluateVisitor) visitGreaterOrEqual(expr *expression.BinaryExpression)
 		return nil, err
 	}
 
-	rightLit, ok := left.(*expression.IntLiteral)
+	rightLit, ok := right.(*expression.IntLiteral)
 	if !ok {
 		return nil, fmt.Errorf("expect int literal got %s", right)
 	}
