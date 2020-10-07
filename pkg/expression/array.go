@@ -8,7 +8,7 @@ type ArrayExpression struct {
 	Children []Expression
 }
 
-func NewArrayExpression(children ...Expression) Expression {
+func NewArrayExpression(children ...Expression) *ArrayExpression {
 	if len(children) == 0 {
 		return &ArrayExpression{
 			Children: []Expression{},

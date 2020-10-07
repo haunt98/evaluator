@@ -9,7 +9,7 @@ type UnaryExpression struct {
 	Child    Expression
 }
 
-func NewUnaryExpression(op token.Token, child Expression) Expression {
+func NewUnaryExpression(op token.Token, child Expression) *UnaryExpression {
 	return &UnaryExpression{
 		Operator: op,
 		Child:    child,

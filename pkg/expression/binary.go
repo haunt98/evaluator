@@ -9,7 +9,7 @@ type BinaryExpression struct {
 	Left, Right Expression
 }
 
-func NewBinaryExpression(op token.Token, left, right Expression) Expression {
+func NewBinaryExpression(op token.Token, left, right Expression) *BinaryExpression {
 	return &BinaryExpression{
 		Operator: op,
 		Left:     left,

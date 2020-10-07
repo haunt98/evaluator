@@ -8,7 +8,7 @@ type IntLiteral struct {
 	Value int64
 }
 
-func NewIntLiteral(value int64) Expression {
+func NewIntLiteral(value int64) *IntLiteral {
 	return &IntLiteral{
 		Value: value,
 	}

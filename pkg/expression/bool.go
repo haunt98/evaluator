@@ -8,7 +8,7 @@ type BoolLiteral struct {
 	Value bool
 }
 
-func NewBoolLiteral(value bool) Expression {
+func NewBoolLiteral(value bool) *BoolLiteral {
 	return &BoolLiteral{
 		Value: value,
 	}

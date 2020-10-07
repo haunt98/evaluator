@@ -4,7 +4,7 @@ type StringLiteral struct {
 	Value string
 }
 
-func NewStringLiteral(value string) Expression {
+func NewStringLiteral(value string) *StringLiteral {
 	return &StringLiteral{
 		Value: value,
 	}
