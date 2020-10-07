@@ -96,6 +96,25 @@ func generateTestCaseVar() []testCase {
 	}
 }
 
+func generateTestCaseUnary() []testCase {
+	return []testCase{
+		{
+			name:       "not true",
+			inputExpr:  expression.NewUnaryExpression(token.Not, expression.NewBoolLiteral(true)),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(false),
+			wantErr:    nil,
+		},
+		{
+			name:       "not false",
+			inputExpr:  expression.NewUnaryExpression(token.Not, expression.NewBoolLiteral(false)),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(true),
+			wantErr:    nil,
+		},
+	}
+}
+
 // TODO: add more binary unittest
 func generateTestCaseBinary() []testCase {
 	return []testCase{
@@ -390,6 +409,7 @@ func TestEvaluateVisitorVisit(t *testing.T) {
 	var tests []testCase
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)
+	tests = append(tests, generateTestCaseUnary()...)
 	tests = append(tests, generateTestCaseBinary()...)
 
 	for _, tc := range tests {
