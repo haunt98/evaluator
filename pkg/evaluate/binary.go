@@ -3,6 +3,8 @@ package evaluate
 import (
 	"fmt"
 
+	"github.com/haunt98/evaluator/pkg/token"
+
 	"github.com/haunt98/evaluator/pkg/expression"
 )
 
@@ -211,4 +213,54 @@ func (v *evaluateVisitor) visitGreaterOrEqual(expr *expression.BinaryExpression)
 	}
 
 	return expression.NewBoolLiteral(leftLit.Value >= rightLit.Value), nil
+}
+
+func (v *evaluateVisitor) visitIn(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
+	if err != nil {
+		return nil, err
+	}
+
+	right, err := v.Visit(expr.Right)
+	if err != nil {
+		return nil, err
+	}
+
+	rightArr, ok := right.(*expression.ArrayExpression)
+	if !ok {
+		return nil, fmt.Errorf("expect array expression got %s", right)
+	}
+
+	// compare left to all children of right
+	for _, child := range rightArr.Children {
+		equalExpr, err := v.visitEqual(expression.NewBinaryExpression(token.Equal, left, child))
+		if err != nil {
+			continue
+		}
+
+		equalLit, ok := equalExpr.(*expression.BoolLiteral)
+		if !ok {
+			continue
+		}
+
+		if equalLit.Value {
+			return expression.NewBoolLiteral(true), nil
+		}
+	}
+
+	return expression.NewBoolLiteral(false), nil
+}
+
+func (v *evaluateVisitor) visitNotIn(expr *expression.BinaryExpression) (expression.Expression, error) {
+	equalExpr, err := v.visitIn(expr)
+	if err != nil {
+		return nil, err
+	}
+
+	equalLit, ok := equalExpr.(*expression.BoolLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect bool literal got %s", equalLit)
+	}
+
+	return expression.NewBoolLiteral(!equalLit.Value), nil
 }
