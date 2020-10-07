@@ -66,6 +66,14 @@ func (v *evaluateVisitor) VisitBinary(expr *expression.BinaryExpression) (expres
 		return v.visitEqual(expr)
 	case token.NotEqual:
 		return v.visitNotEqual(expr)
+	case token.Less:
+		return v.visitLess(expr)
+	case token.LessOrEqual:
+		return v.visitLessOrEqual(expr)
+	case token.Greater:
+		return v.visitGreater(expr)
+	case token.GreaterOrEqual:
+		return v.visitGreaterOrEqual(expr)
 	default:
 		return nil, fmt.Errorf("not implement visit binary operator %s", expr.Operator)
 	}

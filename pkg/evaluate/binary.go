@@ -116,3 +116,99 @@ func (v *evaluateVisitor) visitNotEqual(expr *expression.BinaryExpression) (expr
 
 	return expression.NewBoolLiteral(!equalLit.Value), nil
 }
+
+func (v *evaluateVisitor) visitLess(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
+	if err != nil {
+		return nil, err
+	}
+
+	leftLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", left)
+	}
+
+	right, err := v.Visit(expr.Right)
+	if err != nil {
+		return nil, err
+	}
+
+	rightLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", right)
+	}
+
+	return expression.NewBoolLiteral(leftLit.Value < rightLit.Value), nil
+}
+
+func (v *evaluateVisitor) visitLessOrEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
+	if err != nil {
+		return nil, err
+	}
+
+	leftLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", left)
+	}
+
+	right, err := v.Visit(expr.Right)
+	if err != nil {
+		return nil, err
+	}
+
+	rightLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", right)
+	}
+
+	return expression.NewBoolLiteral(leftLit.Value <= rightLit.Value), nil
+}
+
+func (v *evaluateVisitor) visitGreater(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
+	if err != nil {
+		return nil, err
+	}
+
+	leftLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", left)
+	}
+
+	right, err := v.Visit(expr.Right)
+	if err != nil {
+		return nil, err
+	}
+
+	rightLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", right)
+	}
+
+	return expression.NewBoolLiteral(leftLit.Value > rightLit.Value), nil
+}
+
+func (v *evaluateVisitor) visitGreaterOrEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+	left, err := v.Visit(expr.Left)
+	if err != nil {
+		return nil, err
+	}
+
+	leftLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", left)
+	}
+
+	right, err := v.Visit(expr.Right)
+	if err != nil {
+		return nil, err
+	}
+
+	rightLit, ok := left.(*expression.IntLiteral)
+	if !ok {
+		return nil, fmt.Errorf("expect int literal got %s", right)
+	}
+
+	return expression.NewBoolLiteral(leftLit.Value >= rightLit.Value), nil
+}
