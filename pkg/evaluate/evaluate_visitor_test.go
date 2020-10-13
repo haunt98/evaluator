@@ -458,6 +458,62 @@ func generateTestCaseBinary() []testCase {
 			wantResult: expression.NewBoolLiteral(false),
 			wantErr:    nil,
 		},
+		{
+			name: "not in",
+			inputExpr: expression.NewBinaryExpression(token.NotIn,
+				expression.NewBoolLiteral(true),
+				expression.NewArrayExpression(
+					expression.NewBoolLiteral(true),
+					expression.NewIntLiteral(1),
+					expression.NewStringLiteral("a"),
+				),
+			),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(false),
+			wantErr:    nil,
+		},
+		{
+			name: "not in",
+			inputExpr: expression.NewBinaryExpression(token.NotIn,
+				expression.NewBoolLiteral(false),
+				expression.NewArrayExpression(
+					expression.NewBoolLiteral(true),
+					expression.NewIntLiteral(1),
+					expression.NewStringLiteral("a"),
+				),
+			),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(true),
+			wantErr:    nil,
+		},
+		{
+			name: "not in",
+			inputExpr: expression.NewBinaryExpression(token.NotIn,
+				expression.NewStringLiteral("a"),
+				expression.NewArrayExpression(
+					expression.NewBoolLiteral(true),
+					expression.NewIntLiteral(1),
+					expression.NewStringLiteral("a"),
+				),
+			),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(false),
+			wantErr:    nil,
+		},
+		{
+			name: "not in",
+			inputExpr: expression.NewBinaryExpression(token.NotIn,
+				expression.NewStringLiteral("b"),
+				expression.NewArrayExpression(
+					expression.NewBoolLiteral(true),
+					expression.NewIntLiteral(1),
+					expression.NewStringLiteral("a"),
+				),
+			),
+			inputArgs:  nil,
+			wantResult: expression.NewBoolLiteral(true),
+			wantErr:    nil,
+		},
 	}
 }
 
