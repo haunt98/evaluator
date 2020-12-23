@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v0.2.0 (2020-12-23)
+
+### Others
+
+- build: run go mod tidy to remove go-cmp
+
+- test(evaluate): replace go-cmp with assert
+
+- test(parser): replace go-cmp with assert
+
+- test(scanner): replace go-cmp with assert for buffer_scanner
+
+- test(scanner): replace go-cmp with assert
+
+- refactor(evaluate): gofmt binary
+
+- chore: bump golangci-lint v1.33 in github action
+
+- chore(changelog): generate v0.1.0
+
 ## v0.1.0 (2020-12-23)
 
 ### Added
