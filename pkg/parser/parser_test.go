@@ -3,9 +3,9 @@ package parser
 import (
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
 	"github.com/haunt98/evaluator/pkg/expression"
 	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/stretchr/testify/assert"
 )
 
 type testCase struct {
@@ -321,15 +321,11 @@ func TestParserParse(t *testing.T) {
 			p := NewParser(tc.input)
 
 			gotExpr, gotErr := p.Parse()
-			if diff := cmp.Diff(tc.wantErr, gotErr); diff != "" {
-				t.Errorf("mismatch (-want +got):\n%s", diff)
-			}
+			assert.Equal(t, tc.wantErr, gotErr)
 			if tc.wantErr != nil {
 				return
 			}
-			if diff := cmp.Diff(tc.wantExpr, gotExpr); diff != "" {
-				t.Errorf("mismatch (-want +got):\n%s", diff)
-			}
+			assert.Equal(t, tc.wantExpr, gotExpr)
 		})
 	}
 }
