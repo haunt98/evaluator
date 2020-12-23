@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
 	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/stretchr/testify/assert"
 )
 
 type bufferScannerTestCase struct {
@@ -77,9 +77,7 @@ func TestBufferScannerScan(t *testing.T) {
 
 			for _, want := range tc.wants {
 				got := bufferScanner.Scan()
-				if diff := cmp.Diff(want, got); diff != "" {
-					t.Errorf("mismatch (-want +got):\n%s", diff)
-				}
+				assert.Equal(t, want, got)
 			}
 		})
 	}
@@ -132,9 +130,7 @@ func TestBufferScannerPeek(t *testing.T) {
 
 			for _, want := range tc.wants {
 				got := bufferScanner.Peek()
-				if diff := cmp.Diff(want, got); diff != "" {
-					t.Errorf("mismatch (-want +got):\n%s", diff)
-				}
+				assert.Equal(t, want, got)
 			}
 		})
 	}
