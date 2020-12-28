@@ -66,6 +66,7 @@ var (
 		Comma:              ",",
 	}
 
+	// https://en.wikipedia.org/wiki/Order_of_operations
 	precedences = map[Token]int{
 		Or:             firstLevel,
 		And:            secondLevel,
