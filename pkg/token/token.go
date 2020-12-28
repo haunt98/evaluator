@@ -32,11 +32,11 @@ const (
 )
 
 const (
-	LowestLevel = 0
-	firstLevel  = 1
-	secondLevel = 2
-	thirdLevel  = 3
-	fourthLevel = 4
+	LowestLevel = iota
+	firstLevel
+	secondLevel
+	thirdLevel
+	fourthLevel
 )
 
 var (
