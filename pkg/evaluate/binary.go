@@ -7,7 +7,7 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
-func (v *evaluateVisitor) visitOr(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitOr(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func (v *evaluateVisitor) visitOr(expr *expression.BinaryExpression) (expression
 	return rightLit, nil
 }
 
-func (v *evaluateVisitor) visitAnd(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitAnd(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (v *evaluateVisitor) visitAnd(expr *expression.BinaryExpression) (expressio
 	return rightLit, nil
 }
 
-func (v *evaluateVisitor) visitEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -104,7 +104,7 @@ func (v *evaluateVisitor) visitEqual(expr *expression.BinaryExpression) (express
 	}
 }
 
-func (v *evaluateVisitor) visitNotEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitNotEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
 	equalExpr, err := v.visitEqual(expr)
 	if err != nil {
 		return nil, err
@@ -118,7 +118,7 @@ func (v *evaluateVisitor) visitNotEqual(expr *expression.BinaryExpression) (expr
 	return expression.NewBoolLiteral(!equalLit.Value), nil
 }
 
-func (v *evaluateVisitor) visitLess(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitLess(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -142,7 +142,7 @@ func (v *evaluateVisitor) visitLess(expr *expression.BinaryExpression) (expressi
 	return expression.NewBoolLiteral(leftLit.Value < rightLit.Value), nil
 }
 
-func (v *evaluateVisitor) visitLessOrEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitLessOrEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (v *evaluateVisitor) visitLessOrEqual(expr *expression.BinaryExpression) (e
 	return expression.NewBoolLiteral(leftLit.Value <= rightLit.Value), nil
 }
 
-func (v *evaluateVisitor) visitGreater(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitGreater(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -190,7 +190,7 @@ func (v *evaluateVisitor) visitGreater(expr *expression.BinaryExpression) (expre
 	return expression.NewBoolLiteral(leftLit.Value > rightLit.Value), nil
 }
 
-func (v *evaluateVisitor) visitGreaterOrEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitGreaterOrEqual(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -214,7 +214,7 @@ func (v *evaluateVisitor) visitGreaterOrEqual(expr *expression.BinaryExpression)
 	return expression.NewBoolLiteral(leftLit.Value >= rightLit.Value), nil
 }
 
-func (v *evaluateVisitor) visitIn(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitIn(expr *expression.BinaryExpression) (expression.Expression, error) {
 	left, err := v.Visit(expr.Left)
 	if err != nil {
 		return nil, err
@@ -250,7 +250,7 @@ func (v *evaluateVisitor) visitIn(expr *expression.BinaryExpression) (expression
 	return expression.NewBoolLiteral(false), nil
 }
 
-func (v *evaluateVisitor) visitNotIn(expr *expression.BinaryExpression) (expression.Expression, error) {
+func (v *visitor) visitNotIn(expr *expression.BinaryExpression) (expression.Expression, error) {
 	equalExpr, err := v.visitIn(expr)
 	if err != nil {
 		return nil, err

@@ -526,7 +526,7 @@ func TestEvaluateVisitorVisit(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			v := NewEvaluateVisitor(tc.inputArgs)
+			v := NewVisitor(tc.inputArgs)
 
 			gotResult, gotErr := v.Visit(tc.inputExpr)
 			assert.Equal(t, tc.wantErr, gotErr)
