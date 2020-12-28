@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v0.3.0 (2020-12-29)
+
+### Added
+
+- feat(token): use iota for precedence level
+
+### Others
+
+- chore(token): add precedence wiki
+
+- refactor(evaluate): remove evaluate prefix in visitor struct
+
+- refactor(evaluate): remove evaluate prefix in filename
+
+- chore(readme): add github action badge and pkg.go.dev badge
+
+- chore(changelog): generate v0.2.0
+
 ## v0.2.0 (2020-12-23)
 
 ### Others
