@@ -4,11 +4,11 @@ import (
 	"strconv"
 )
 
+var _ Expression = (*IntLiteral)(nil)
+
 type IntLiteral struct {
 	Value int64
 }
-
-var _ Expression = (*IntLiteral)(nil)
 
 func NewIntLiteral(value int64) *IntLiteral {
 	return &IntLiteral{

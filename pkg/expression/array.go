@@ -4,11 +4,11 @@ import (
 	"strings"
 )
 
+var _ Expression = (*ArrayExpression)(nil)
+
 type ArrayExpression struct {
 	Children []Expression
 }
-
-var _ Expression = (*ArrayExpression)(nil)
 
 func NewArrayExpression(children ...Expression) *ArrayExpression {
 	if len(children) == 0 {

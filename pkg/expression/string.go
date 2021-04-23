@@ -1,10 +1,10 @@
 package expression
 
+var _ Expression = (*StringLiteral)(nil)
+
 type StringLiteral struct {
 	Value string
 }
-
-var _ Expression = (*StringLiteral)(nil)
 
 func NewStringLiteral(value string) *StringLiteral {
 	return &StringLiteral{

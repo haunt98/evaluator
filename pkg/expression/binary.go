@@ -4,12 +4,12 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
+var _ Expression = (*BinaryExpression)(nil)
+
 type BinaryExpression struct {
 	Operator    token.Token
 	Left, Right Expression
 }
-
-var _ Expression = (*BinaryExpression)(nil)
 
 func NewBinaryExpression(op token.Token, left, right Expression) *BinaryExpression {
 	return &BinaryExpression{

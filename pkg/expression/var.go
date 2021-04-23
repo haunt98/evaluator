@@ -4,11 +4,11 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
+var _ Expression = (*VarExpression)(nil)
+
 type VarExpression struct {
 	Value string
 }
-
-var _ Expression = (*VarExpression)(nil)
 
 func NewVarExpression(value string) *VarExpression {
 	return &VarExpression{

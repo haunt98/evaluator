@@ -4,12 +4,12 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
+var _ Expression = (*UnaryExpression)(nil)
+
 type UnaryExpression struct {
 	Operator token.Token
 	Child    Expression
 }
-
-var _ Expression = (*UnaryExpression)(nil)
 
 func NewUnaryExpression(op token.Token, child Expression) *UnaryExpression {
 	return &UnaryExpression{
