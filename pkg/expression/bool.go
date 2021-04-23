@@ -8,6 +8,8 @@ type BoolLiteral struct {
 	Value bool
 }
 
+var _ Expression = (*BoolLiteral)(nil)
+
 func NewBoolLiteral(value bool) *BoolLiteral {
 	return &BoolLiteral{
 		Value: value,

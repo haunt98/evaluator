@@ -9,6 +9,8 @@ type UnaryExpression struct {
 	Child    Expression
 }
 
+var _ Expression = (*UnaryExpression)(nil)
+
 func NewUnaryExpression(op token.Token, child Expression) *UnaryExpression {
 	return &UnaryExpression{
 		Operator: op,

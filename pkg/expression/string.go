@@ -4,6 +4,8 @@ type StringLiteral struct {
 	Value string
 }
 
+var _ Expression = (*StringLiteral)(nil)
+
 func NewStringLiteral(value string) *StringLiteral {
 	return &StringLiteral{
 		Value: value,

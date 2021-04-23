@@ -9,6 +9,8 @@ type BinaryExpression struct {
 	Left, Right Expression
 }
 
+var _ Expression = (*BinaryExpression)(nil)
+
 func NewBinaryExpression(op token.Token, left, right Expression) *BinaryExpression {
 	return &BinaryExpression{
 		Operator: op,
