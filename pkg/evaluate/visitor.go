@@ -7,11 +7,13 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
+var _ expression.Visitor = (*visitor)(nil)
+
 type visitor struct {
 	args map[string]interface{}
 }
 
-func NewVisitor(args map[string]interface{}) expression.Visitor {
+func NewVisitor(args map[string]interface{}) *visitor {
 	return &visitor{
 		args: args,
 	}
