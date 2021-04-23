@@ -4,6 +4,8 @@ import (
 	"strings"
 )
 
+var _ Expression = (*ArrayExpression)(nil)
+
 type ArrayExpression struct {
 	Children []Expression
 }

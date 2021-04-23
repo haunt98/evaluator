@@ -1,5 +1,7 @@
 package expression
 
+var _ Expression = (*StringLiteral)(nil)
+
 type StringLiteral struct {
 	Value string
 }

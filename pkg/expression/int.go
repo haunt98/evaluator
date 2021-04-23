@@ -4,6 +4,8 @@ import (
 	"strconv"
 )
 
+var _ Expression = (*IntLiteral)(nil)
+
 type IntLiteral struct {
 	Value int64
 }

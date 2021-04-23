@@ -4,6 +4,8 @@ import (
 	"strconv"
 )
 
+var _ Expression = (*BoolLiteral)(nil)
+
 type BoolLiteral struct {
 	Value bool
 }

@@ -4,6 +4,8 @@ import (
 	"github.com/haunt98/evaluator/pkg/token"
 )
 
+var _ Expression = (*BinaryExpression)(nil)
+
 type BinaryExpression struct {
 	Operator    token.Token
 	Left, Right Expression
