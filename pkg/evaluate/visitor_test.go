@@ -21,23 +21,17 @@ func generateTestCaseLiteral() []testCase {
 		{
 			name:       "bool",
 			inputExpr:  expression.NewBoolLiteral(true),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name:       "int",
 			inputExpr:  expression.NewIntLiteral(1),
-			inputArgs:  nil,
 			wantResult: expression.NewIntLiteral(1),
-			wantErr:    nil,
 		},
 		{
 			name:       "string",
 			inputExpr:  expression.NewStringLiteral("a"),
-			inputArgs:  nil,
 			wantResult: expression.NewStringLiteral("a"),
-			wantErr:    nil,
 		},
 		{
 			name: "array",
@@ -45,12 +39,10 @@ func generateTestCaseLiteral() []testCase {
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(false),
 			),
-			inputArgs: nil,
 			wantResult: expression.NewArrayExpression(
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(false),
 			),
-			wantErr: nil,
 		},
 	}
 }
@@ -64,7 +56,6 @@ func generateTestCaseVar() []testCase {
 				"x": true,
 			},
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name:      "var int",
@@ -73,7 +64,6 @@ func generateTestCaseVar() []testCase {
 				"x": 1,
 			},
 			wantResult: expression.NewIntLiteral(1),
-			wantErr:    nil,
 		},
 		{
 			name:      "var int64",
@@ -82,7 +72,6 @@ func generateTestCaseVar() []testCase {
 				"x": int64(1),
 			},
 			wantResult: expression.NewIntLiteral(1),
-			wantErr:    nil,
 		},
 		{
 			name:      "var string",
@@ -91,7 +80,6 @@ func generateTestCaseVar() []testCase {
 				"x": "xxx",
 			},
 			wantResult: expression.NewStringLiteral("xxx"),
-			wantErr:    nil,
 		},
 	}
 }
@@ -101,16 +89,12 @@ func generateTestCaseUnary() []testCase {
 		{
 			name:       "not true",
 			inputExpr:  expression.NewUnaryExpression(token.Not, expression.NewBoolLiteral(true)),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name:       "not false",
 			inputExpr:  expression.NewUnaryExpression(token.Not, expression.NewBoolLiteral(false)),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 	}
 }
@@ -124,9 +108,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(false),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "or with args",
@@ -138,7 +120,6 @@ func generateTestCaseBinary() []testCase {
 				"x": false,
 			},
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "and",
@@ -146,9 +127,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(false),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "and with args",
@@ -160,7 +139,6 @@ func generateTestCaseBinary() []testCase {
 				"x": true,
 			},
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "equal bool",
@@ -168,9 +146,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(true),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "equal bool",
@@ -178,9 +154,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(false),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "equal int",
@@ -188,9 +162,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(1),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "equal int",
@@ -198,9 +170,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(2),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "equal string",
@@ -208,9 +178,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewStringLiteral("a"),
 				expression.NewStringLiteral("a"),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "equal string",
@@ -218,9 +186,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewStringLiteral("a"),
 				expression.NewStringLiteral("b"),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "not equal bool",
@@ -228,9 +194,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(true),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "not equal bool",
@@ -238,9 +202,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewBoolLiteral(true),
 				expression.NewBoolLiteral(false),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "not equal int",
@@ -248,9 +210,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(1),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "not equal int",
@@ -258,9 +218,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(2),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "not equal string",
@@ -268,9 +226,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewStringLiteral("a"),
 				expression.NewStringLiteral("a"),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "not equal string",
@@ -278,9 +234,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewStringLiteral("a"),
 				expression.NewStringLiteral("b"),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "less",
@@ -288,9 +242,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(2),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "less",
@@ -298,9 +250,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(1),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "less",
@@ -308,9 +258,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(0),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "less or equal",
@@ -318,9 +266,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(2),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "less or equal",
@@ -328,9 +274,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(1),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "less or equal",
@@ -358,9 +302,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(1),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "greater",
@@ -368,9 +310,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(0),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "greater or equal",
@@ -378,9 +318,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(2),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "greater or equal",
@@ -388,9 +326,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(1),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "greater or equal",
@@ -398,9 +334,7 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(0),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "in",
@@ -412,9 +346,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "in",
@@ -426,9 +358,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "in",
@@ -440,9 +370,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "in",
@@ -454,9 +382,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "not in",
@@ -468,9 +394,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "not in",
@@ -482,9 +406,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 		{
 			name: "not in",
@@ -496,9 +418,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(false),
-			wantErr:    nil,
 		},
 		{
 			name: "not in",
@@ -510,9 +430,7 @@ func generateTestCaseBinary() []testCase {
 					expression.NewStringLiteral("a"),
 				),
 			),
-			inputArgs:  nil,
 			wantResult: expression.NewBoolLiteral(true),
-			wantErr:    nil,
 		},
 	}
 }
