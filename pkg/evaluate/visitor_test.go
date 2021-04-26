@@ -96,11 +96,6 @@ func generateTestCaseUnary() []testCase {
 			inputExpr:  expression.NewUnaryExpression(token.Not, expression.NewBoolLiteral(false)),
 			wantResult: expression.NewBoolLiteral(true),
 		},
-	}
-}
-
-func generateTestCaseVarUnary() []testCase {
-	return []testCase{
 		{
 			name:      "not var true",
 			inputExpr: expression.NewUnaryExpression(token.Not, expression.NewVarExpression("x")),
@@ -460,7 +455,6 @@ func TestEvaluateVisitorVisit(t *testing.T) {
 	tests = append(tests, generateTestCaseLiteral()...)
 	tests = append(tests, generateTestCaseVar()...)
 	tests = append(tests, generateTestCaseUnary()...)
-	tests = append(tests, generateTestCaseVarUnary()...)
 	tests = append(tests, generateTestCaseBinary()...)
 
 	for _, tc := range tests {
