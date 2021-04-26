@@ -172,6 +172,28 @@ func generateTestCaseBinary() []testCase {
 			wantResult: expression.NewBoolLiteral(false),
 		},
 		{
+			name: "equal bool with args",
+			inputExpr: expression.NewBinaryExpression(token.Equal,
+				expression.NewVarExpression("x"),
+				expression.NewBoolLiteral(true),
+			),
+			inputArgs: map[string]interface{}{
+				"x": true,
+			},
+			wantResult: expression.NewBoolLiteral(true),
+		},
+		{
+			name: "equal bool with args",
+			inputExpr: expression.NewBinaryExpression(token.Equal,
+				expression.NewVarExpression("x"),
+				expression.NewBoolLiteral(true),
+			),
+			inputArgs: map[string]interface{}{
+				"x": false,
+			},
+			wantResult: expression.NewBoolLiteral(false),
+		},
+		{
 			name: "equal int",
 			inputExpr: expression.NewBinaryExpression(token.Equal,
 				expression.NewIntLiteral(1),
@@ -185,6 +207,28 @@ func generateTestCaseBinary() []testCase {
 				expression.NewIntLiteral(1),
 				expression.NewIntLiteral(2),
 			),
+			wantResult: expression.NewBoolLiteral(false),
+		},
+		{
+			name: "equal int with args",
+			inputExpr: expression.NewBinaryExpression(token.Equal,
+				expression.NewVarExpression("x"),
+				expression.NewIntLiteral(1),
+			),
+			inputArgs: map[string]interface{}{
+				"x": 1,
+			},
+			wantResult: expression.NewBoolLiteral(true),
+		},
+		{
+			name: "equal int with args",
+			inputExpr: expression.NewBinaryExpression(token.Equal,
+				expression.NewVarExpression("x"),
+				expression.NewIntLiteral(1),
+			),
+			inputArgs: map[string]interface{}{
+				"x": 2,
+			},
 			wantResult: expression.NewBoolLiteral(false),
 		},
 		{
