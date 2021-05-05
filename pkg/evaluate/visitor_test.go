@@ -248,6 +248,28 @@ func generateTestCaseBinary() []testCase {
 			wantResult: expression.NewBoolLiteral(false),
 		},
 		{
+			name: "equal string with args",
+			inputExpr: expression.NewBinaryExpression(token.Equal,
+				expression.NewVarExpression("x"),
+				expression.NewStringLiteral("a"),
+			),
+			inputArgs: map[string]interface{}{
+				"x": "a",
+			},
+			wantResult: expression.NewBoolLiteral(true),
+		},
+		{
+			name: "equal string with args",
+			inputExpr: expression.NewBinaryExpression(token.Equal,
+				expression.NewStringLiteral("a"),
+				expression.NewStringLiteral("b"),
+			),
+			inputArgs: map[string]interface{}{
+				"x": "a",
+			},
+			wantResult: expression.NewBoolLiteral(false),
+		},
+		{
 			name: "not equal bool",
 			inputExpr: expression.NewBinaryExpression(token.NotEqual,
 				expression.NewBoolLiteral(true),
