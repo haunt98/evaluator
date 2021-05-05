@@ -3,8 +3,8 @@ package parser
 import (
 	"testing"
 
-	"github.com/haunt98/evaluator/pkg/expression"
-	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/haunt98/evaluator/expression"
+	"github.com/haunt98/evaluator/token"
 	"github.com/stretchr/testify/assert"
 )
 

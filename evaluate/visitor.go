@@ -3,8 +3,8 @@ package evaluate
 import (
 	"fmt"
 
-	"github.com/haunt98/evaluator/pkg/expression"
-	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/haunt98/evaluator/expression"
+	"github.com/haunt98/evaluator/token"
 )
 
 var _ expression.Visitor = (*visitor)(nil)

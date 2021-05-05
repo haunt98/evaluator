@@ -3,7 +3,7 @@ package evaluate
 import (
 	"fmt"
 
-	"github.com/haunt98/evaluator/pkg/expression"
+	"github.com/haunt98/evaluator/expression"
 )
 
 func (v *visitor) visitNot(expr *expression.UnaryExpression) (expression.Expression, error) {

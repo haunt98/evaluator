@@ -1,7 +1,7 @@
 package expression
 
 import (
-	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/haunt98/evaluator/token"
 )
 
 var _ Expression = (*VarExpression)(nil)

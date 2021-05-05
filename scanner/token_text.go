@@ -3,7 +3,7 @@ package scanner
 import (
 	"fmt"
 
-	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/haunt98/evaluator/token"
 )
 
 type TokenText struct {

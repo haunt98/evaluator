@@ -3,8 +3,8 @@ package evaluate
 import (
 	"fmt"
 
-	"github.com/haunt98/evaluator/pkg/expression"
-	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/haunt98/evaluator/expression"
+	"github.com/haunt98/evaluator/token"
 )
 
 func (v *visitor) visitOr(expr *expression.BinaryExpression) (expression.Expression, error) {

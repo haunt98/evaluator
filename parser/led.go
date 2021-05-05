@@ -3,8 +3,8 @@ package parser
 import (
 	"fmt"
 
-	"github.com/haunt98/evaluator/pkg/expression"
-	"github.com/haunt98/evaluator/pkg/scanner"
+	"github.com/haunt98/evaluator/expression"
+	"github.com/haunt98/evaluator/scanner"
 )
 
 func (p *Parser) led(tokenText scanner.TokenText, expr expression.Expression) (expression.Expression, error) {

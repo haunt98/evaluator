@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/haunt98/evaluator/pkg/expression"
-	"github.com/haunt98/evaluator/pkg/scanner"
-	"github.com/haunt98/evaluator/pkg/token"
+	"github.com/haunt98/evaluator/expression"
+	"github.com/haunt98/evaluator/scanner"
+	"github.com/haunt98/evaluator/token"
 )
 
 const (
